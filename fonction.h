@@ -38,7 +38,7 @@ void initialiser(Carte* c);
  *@brief mélanger un paquet de carte
  *@param[OUT] tableau de type Carte
 */
-void melanger_tableau(Carte* c);
+void melanger_paquet(Carte* c);
 
 
 

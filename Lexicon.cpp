@@ -7,10 +7,6 @@
 using namespace std;
 
 
-
-
-
-
 int main(int argc, char* argv[]) {
 
     Carte carte[NbrCartes];
@@ -18,7 +14,7 @@ int main(int argc, char* argv[]) {
     initialiser(carte);
     afficher(carte);
     cout << endl;
-    melanger_tableau(carte);
+    melanger_paquet(carte);
     afficher(carte);
     return 0;
 }

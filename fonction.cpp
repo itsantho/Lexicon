@@ -28,16 +28,16 @@ void afficher(Carte *c){
     }
 }
 
-void melanger_tableau(Carte* c) {
-    int j;
-    srand(time(NULL));
-    Carte t[NbrCartes];
-    for (unsigned int m = 0; m < rand() % 15; ++m) {
-        for (unsigned int i = NbrCartes; i != 2; --i) {
-            j = rand() % i;
-            t[0] = c[i - 1];
-            c[i - 1] = c[j];
-            c[j] = t[0];
-        }
+void melanger_paquet(Carte* c) {
+    srand(time(nullptr));
+
+    for (size_t i = 0; i < NbrCartes; ++i)
+    {
+        const size_t j = rand() % NbrCartes;
+
+        
+        Carte tmp = c[i];
+        c[i] = c[j];
+        c[j] = tmp;
     }
 }
