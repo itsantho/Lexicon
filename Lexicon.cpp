@@ -6,16 +6,20 @@
 
 using namespace std;
 
-
 int main(int argc, char* argv[]) {
+    unsigned int nb_carte_paquet = NbrCartes;
+    Carte cartes[NbrCartes];
 
-    Carte carte[NbrCartes];
-    Joueur joueur[4];
-    initialiser(carte);
-    afficher(carte);
+    Joueur joueurs[4];
+    initialiser(cartes);
+    afficher(cartes, nb_carte_paquet);
     cout << endl;
-    melanger_paquet(carte);
-    afficher(carte);
+    melanger_paquet(cartes);
+    afficher(cartes, nb_carte_paquet);
+    nb_carte_paquet = distribuer(cartes, joueurs, 4);
+    cout << endl;
+    afficher(cartes, nb_carte_paquet);
+    afficher_deck(joueurs[0]);
     return 0;
 }
 
