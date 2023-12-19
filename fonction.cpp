@@ -8,22 +8,20 @@ using namespace std;
 
 // implémentation 
 
-void initialiser(Carte* c){
+void initialiser_paquet(ListCarte& c){
     // i la position de carte dans le paquet de 51, index la lettre, j la quantité
-
+    initialiser(c, NbrCartes);
     unsigned int qte[NbrCartesUnique] = {2,2,2,2,5,1,2,2,4,1,1,2,1,3,2,1,1,3,3,3,3,1,1,1,1,1};
-    unsigned int n = 0;
     for (unsigned int i = 0; i < NbrCartesUnique; ++i) {
         for (unsigned int j = 0; j < qte[i]; ++j) {
-            c[n] = 'A' + i;
-            ++n;
+            ajouter(c, 'A' + i);
         }
     }
 }
 
-void afficher(Carte *c, unsigned int nb_carte){
-    for(unsigned int i = 0 ; i < nb_carte; ++i){
-        cout << c[i] << endl;
+void afficher(const ListCarte& c){
+    for(unsigned int i = 0 ; i < c.taille; ++i){
+        cout << lire(c, i) << endl;
     }
 }
 
@@ -45,15 +43,13 @@ void donner_une_carte(Joueur& j, Carte c) {
     ++j.carte_restante;
 }
 
-unsigned int distribuer(Carte* cartes, Joueur* joueurs, unsigned int nb_joueur) {
-    unsigned int n = 50;
+void distribuer(ListCarte& c, Joueur* joueurs, unsigned int nb_joueur) {
     for (unsigned int i = 0; i < nb_joueur; ++i) {
         for (unsigned int j = 0; j < NbrCarteParJoueur; ++j) {
-            donner_une_carte(joueurs[i], cartes[n]);
-            --n;
+            donner_une_carte(joueurs[i], lire(c,c.taille-1));
+            --c.taille;
         }
     }
-    return n;
 }
 
 void afficher_deck(Joueur& joueur) {

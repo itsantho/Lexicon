@@ -3,22 +3,23 @@
 #include <cstdlib>
 #include <ctime>
 #include "fonction.h"
+#include "ListCarte.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    unsigned int nb_carte_paquet = NbrCartes;
-    Carte cartes[NbrCartes];
+    ListCarte cartes;
+
 
     Joueur joueurs[4];
-    initialiser(cartes);
-    afficher(cartes, nb_carte_paquet);
+    initialiser_paquet(cartes);
+    afficher(cartes);
     cout << endl;
     melanger_paquet(cartes);
-    afficher(cartes, nb_carte_paquet);
-    nb_carte_paquet = distribuer(cartes, joueurs, 4);
+    afficher(cartes);
+    distribuer(cartes, joueurs, 4);
     cout << endl;
-    afficher(cartes, nb_carte_paquet);
+    afficher(cartes);
     afficher_deck(joueurs[0]);
     return 0;
 }

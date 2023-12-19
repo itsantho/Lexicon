@@ -1,6 +1,6 @@
 #ifndef FONCTION_H
 #define FONCTION_H
-
+#include "ListCarte.h"
 
 // Constantes
 enum {
@@ -18,37 +18,32 @@ struct Joueur {
     unsigned int score = 0;
     char carte_possede[NbrCarteParJoueur];
 };
-// Structure sur toutes les cartes
-struct ListCarte {
-    Carte* cartes;
-    unsigned int taille;
-};
 
 /*
  * @brief afficher un paquet de carte
  * @param[IN] tableau de type Carte
  * @param[IN] Nombre de carte restante dans le paquet
 */
-void afficher(Carte* c, unsigned int nb_carte);
+void afficher(const ListCarte& c);
 
 /*
- *@ brief initialiser un paquet de carte
+ *@ brief initialiser_paquet un paquet de carte
  *@ param[OUT] tableau de type Carte
 */
-void initialiser(Carte* c);
+void initialiser_paquet(ListCarte& c);
 
 /*
  * @brief mélanger un paquet de carte
  * @param[OUT] tableau de type Carte
 */
-void melanger_paquet(Carte* c);
+void melanger_paquet(ListCarte& c);
 
 /*
  * @brief Donne une carte à un joueur
  * @param[OUT] Un joueur
  * @param[OUT] une carte
 */
-void donner_une_carte(Joueur* j, Carte c);
+void donner_une_carte(Joueur& j, Carte c);
 
 /*
  * @brief Distribuer des cartes aux joeurs
@@ -57,7 +52,7 @@ void donner_une_carte(Joueur* j, Carte c);
  * @param[OUT]
  * @return le nombre de carte restante
 */
-unsigned int distribuer(Carte* c, Joueur* j,unsigned int nb_joueur);
+void distribuer(ListCarte& c, Joueur* j,unsigned int nb_joueur);
 
 /*
  * @brief Affiche le deck du joueur
