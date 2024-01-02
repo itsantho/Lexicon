@@ -54,10 +54,13 @@ void detruire(ListCarte &liste) {
 }
 
 
+bool contient(ListCarte &cartes, Carte carte) {
 
+    for (unsigned int i = 0; i < cartes.taille; ++i)
+    {
+        if (cartes.cartes[i] == carte)
+            return true;
+    }
 
-
-
-
-
-
+    return false;
+}

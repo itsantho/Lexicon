@@ -6,8 +6,7 @@
 #define LEXICON_LISTCARTE_H
 
 
-#include "fonction.h"
-
+#include "constante.h"
 
 
 //
@@ -39,7 +38,7 @@ void ajouter(ListCarte& liste, Carte carte);
  * @param[IN] indice
  * @param[OUT] Carte
 */
-void modifier(ListCarte& liste, unsigned int index,Carte carte);
+void modifier(ListCarte& liste, unsigned int index, Carte carte);
 
 /*
  * @brief retire une carte de la liste
@@ -60,5 +59,8 @@ Carte lire(const ListCarte& liste, unsigned int index);
  * param[IN] liste
 */
 void detruire(ListCarte& liste);
+
+bool contient(ListCarte& cartes, Carte carte);
+
 
 #endif //LEXICON_LISTCARTE_H

@@ -1,26 +1,41 @@
 #include <iostream>
-#include <cassert>
-#include <cstdlib>
-#include <ctime>
-#include "fonction.h"
+#include "jeu.h"
 #include "ListCarte.h"
+#include "piles.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
+
+
     ListCarte cartes;
 
-
     Joueur joueurs[4];
+
     initialiser_paquet(cartes);
-    afficher(cartes);
-    cout << endl;
     melanger_paquet(cartes);
-    afficher(cartes);
+
     distribuer(cartes, joueurs, 4);
-    cout << endl;
-    afficher(cartes);
-    afficher_deck(joueurs[0]);
+
+    afficher_commandes();
+
+    Pile talon;
+    Pile exposees;
+    initialiser(talon, 20);
+    initialiser(exposees, 20);
+
+    bool jeu_en_cours = true;
+
+    while (jeu_en_cours){
+        cout << '>';
+
+        char c;
+        cin >> c;
+
+        if (c == 'T')
+
+    }
+
     return 0;
 }
 
