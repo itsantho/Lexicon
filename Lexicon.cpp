@@ -1,7 +1,7 @@
 #include <iostream>
 #include "jeu.h"
-#include "ListCarte.h"
-#include "piles.h"
+#include "Conteneur/ListCarte.h"
+#include "Conteneur/piles.h"
 
 using namespace std;
 

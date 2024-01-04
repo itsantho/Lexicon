@@ -1,8 +1,9 @@
 #ifndef FONCTION_H
 #define FONCTION_H
-#include "ListCarte.h"
+#include "Conteneur/ListCarte.h"
 #include "constante.h"
-#include "piles.h"
+#include "Conteneur/piles.h"
+#include "Conteneur/ListMots.h"
 
 
 //Structure Joueur
@@ -11,6 +12,7 @@ struct Joueur {
     ListCarte carte_possede;
 };
 
+// Pointeurs pour les mots de la table
 ListCarte* mots;
 
 /*
@@ -75,8 +77,27 @@ void expose(Pile& expose, Joueur&j);
 
 /*
  * @brief Poser un mot et retire les lettres de la main du joueur
- * @param[OUT] les cartes joueurs
+ * @param[IN,OUT] j le joueur actuelle
+ * param[IN,OUT] motPose la liste des mots placés sur la table
+ * param[IN] dictionnaire des mots valide
  * */
-void poser(Joueur& j, ListCarte m[10]);
+void poser(Joueur& j, ListMots& motPose, const ListMots& dictionnaire);
+
+/*
+ * @brief Remplace un mot par un autre en utilisant les lettres du mot remplacé
+ * @param[IN,OUT] j le Joueur actuel
+ * param[IN,OUT] motPose la liste des mots placés sur la table
+ * param[IN] dictionnaire des mots valide
+ * */
+void remplacer(Joueur& j, ListMots& motsPose, const ListMots dictionnaire);
+
+/*
+ * @brief Complete un mot en ajoutant les cartes du joueurs
+ * @param[IN,OUT] j le Joueur actuel
+ * param[IN,OUT] motPose la liste des mots placés sur la table
+ * param[IN] dictionnaire des mots valide
+ */
+
+void completer(Joueur& j, ListMots& motsPose, const ListMots dictionnaire);
 
 #endif // FONCTION_H

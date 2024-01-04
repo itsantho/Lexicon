@@ -92,21 +92,31 @@ void expose(Pile &expose, Joueur &j) {
     ajouter(j.carte_possede, tmp);
 }
 
-void poser(Joueur& j, ListCarte m[10]){
+void poser(Joueur& j, ListMots& motPose, const ListMots& dictionnaire){
     ListCarte mot;
     initialiser(mot, 20);
 
     char input[16];
     cin >> input;
-
+    //On ajoute à mot les caractères saisies
     for (unsigned int i = 0; i < strlen(input); ++i)
         ajouter(mot, input[i]);
 
+    // On vérifie si le joueur possèdes ces cartes
     for(unsigned int i = 0; i < mot.taille; ++i){
         if (!contient(j.carte_possede,mot.cartes[i]))
             return;
     }
+    // Valide par rapport au dictionnaire
 
+    //Supprimer les carte du joueurs
+    for (unsigned int i = 0; i < mot.taille; ++i){
+        retirer(j.carte_possede,mot.cartes[i]);
+    }
+    //ajouter le mot à la liste de mot sur la table
+    AjouterListMots(motPose,mot);
+}
 
+void remplacer(Joueur &j, ListMots &motsPose, const ListMots dictionnaire) {
 
 }
