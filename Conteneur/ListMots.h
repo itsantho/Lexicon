@@ -17,13 +17,11 @@ enum
     WORD_LIST_CAPACITY_EXTEND = 2  // facteur d'extension par défaut d'une liste de mot
 };
 /*
- * @brief Création d'une liste de mot
- * @param[IN] la capacité de la liste par défaut
- * @return La liste de mot contenant une capacité initiale
- *
+ * @brief Initialise une liste de mots
+ * @param[IN] la capacité de la liste
 */
 
-ListMots CreerListMots(unsigned int capacite_depart = 0);
+void CreerListMots(ListMots& liste, unsigned int capa);
 
 /*
  * @brief Desalloue les mots de la liste
@@ -63,4 +61,4 @@ void ModifierMot(ListMots& listMots, unsigned int index, const ListCarte& moy);
  */
 void AjouterListMots(ListMots& listMots, const ListCarte& mot);
 
-#endif //LEXICON_LISTMOTS_H
+#endif //LEXICON_LISTMOTS_

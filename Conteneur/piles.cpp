@@ -4,7 +4,7 @@
 #include "ListCarte.h"
 
 void initialiser(Pile &p, unsigned int capa) {
-    initialiser(p.cartes, capa);
+    initialiser_liste_carte(capa);
 }
 
 bool estVide(const Pile& p)

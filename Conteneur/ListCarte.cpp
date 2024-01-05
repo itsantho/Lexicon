@@ -4,10 +4,13 @@
 #include "ListCarte.h"
 #include <cassert>
 
-void initialiser(ListCarte& liste, unsigned int capa){
-    liste.capacite = capa;
-    liste.cartes = new Carte[capa];
-    liste.taille = 0;
+ListCarte initialiser_liste_carte(unsigned int capa){
+    const ListCarte cartes = {
+            .cartes = capa ? new Carte[capa]: nullptr,
+            .taille = 0,
+            .capacite = capa
+    };
+    return cartes;
 }
 
 void ajouter(ListCarte &liste, Carte carte) {

@@ -11,7 +11,10 @@
 struct Pile {
     ListCarte cartes;
 };
-
+/*
+ * @brief initialise une pile
+ * @param[OUT] la pile
+ * @param[OUT] capa sa capacité*/
 void initialiser(Pile& p, unsigned int capa);
 bool estVide(const Pile& p);
 void detruire(Pile& p);

@@ -4,16 +4,17 @@
 #include "constante.h"
 #include "Conteneur/piles.h"
 #include "Conteneur/ListMots.h"
+#include "Joueurs.h"
 
 
-//Structure Joueur
-struct Joueur {
-    unsigned int score = 0;
-    ListCarte carte_possede;
-};
 
-// Pointeurs pour les mots de la table
-ListCarte* mots;
+
+
+/*
+ * @brief Demande le nombre de joueurs*
+ * @return le nombre de joueurs si valide
+*/
+unsigned int demander_nb_joueurs();
 
 /*
  * @brief afficher_cartes un paquet de carte
@@ -41,20 +42,21 @@ void melanger_paquet(ListCarte& c);
 */
 void donner_une_carte(Joueur& j, Carte c);
 
+
 /*
- * @brief Distribuer des cartes aux joeurs
+ * @brief Distribuer des cartes aux joueurs
  * @param[IN]
  * @param[OUT]
  * @param[OUT]
  * @return le nombre de carte restante
 */
-void distribuer(ListCarte& c, Joueur* j,unsigned int nb_joueur);
+void distribuer(ListCarte& c, ListeDeJoueurs& liste,unsigned int nb_joueur);
 
 /*
  * @brief Affiche le deck du joueur
- * @param[in] Joueur
+ * @param[in] Liste de joueur
 */
-void afficher_deck(Joueur& joueur);
+void afficher_deck(ListeDeJoueurs& liste);
 
 /*
  * @brief Affiche les commandes disponibles
@@ -63,17 +65,25 @@ void afficher_deck(Joueur& joueur);
 void afficher_commandes();
 
 /*
+ * @brief Vérifie si le tour est fini
+ * param[IN] Liste dee joueurs
+ * @return True ou False
+ * */
+bool TourGagne(ListeDeJoueurs& liste);
+
+
+/*
  * @brief Commande Talon
  * @param[out] pile
- * param[IN] lettre
+ * @param[IN] lettre
  * */
-void talon(Pile &talon, Pile& expose, Joueur& j);
+void cmd_talon(Pile& tal, Pile& expose, Joueur& j);
 
 /*
  * @brief Remplace la carte au sommet par la carte du joueur
  * @param[OUT] expose
  * param[OUT] la carte*/
-void expose(Pile& expose, Joueur&j);
+void cmd_expose(Pile& expose, Joueur&j);
 
 /*
  * @brief Poser un mot et retire les lettres de la main du joueur
@@ -89,7 +99,7 @@ void poser(Joueur& j, ListMots& motPose, const ListMots& dictionnaire);
  * param[IN,OUT] motPose la liste des mots placés sur la table
  * param[IN] dictionnaire des mots valide
  * */
-void remplacer(Joueur& j, ListMots& motsPose, const ListMots dictionnaire);
+void remplacer(Joueur& j, ListMots& motsPose, const ListMots& dictionnaire);
 
 /*
  * @brief Complete un mot en ajoutant les cartes du joueurs
@@ -98,6 +108,16 @@ void remplacer(Joueur& j, ListMots& motsPose, const ListMots dictionnaire);
  * param[IN] dictionnaire des mots valide
  */
 
-void completer(Joueur& j, ListMots& motsPose, const ListMots dictionnaire);
+void completer(Joueur& j, ListMots& motsPose, const ListMots& dictionnaire);
+
+/*
+ * @brief Verifie qu'un mot est bien présent dans le dictionnaire
+ * @param[IN] Le mot
+ * @param[IN] Le dictionnaire
+ * @return True ou False
+ *
+ */
+//bool verificationDictionnaire(const char* mot, const char* Dictionnaire);
+
 
 #endif // FONCTION_H

@@ -5,13 +5,10 @@
 #include <cassert>
 #include "ListMots.h"
 
-ListMots CreerListMots(unsigned int capacite_depart) {
-    const ListMots mots = {
-            .capacite = capacite_depart,
-            .taille = 0,
-            .mots = capacite_depart ? new ListCarte[capacite_depart] : nullptr,
-    };
-    return mots;
+void CreerListMots(ListMots& liste, unsigned int capa) {
+    liste.capacite = capa;
+    liste.mots = new ListCarte[capa];
+    liste.taille = 0;
 }
 
 void DetruireListMots(ListMots& listMots) {

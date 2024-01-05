@@ -1,42 +1,116 @@
-#include <iostream>
+
 #include "jeu.h"
 #include "Conteneur/ListCarte.h"
 #include "Conteneur/piles.h"
+#include "Joueurs.h"
+#include <iostream>
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
+    // on demande le nombre de joueurs
+    // Verifie si le le nombre de joueur dépasse le min ou max
+    unsigned int nb_joueurs = 0;
+    nb_joueurs = demander_nb_joueurs();
+    // Initialisation
 
-
+    // Paquet de carte
     ListCarte cartes;
+    Pile exposees;
+    Pile tal;
+    initialiser(tal, TAILLE_MAX_MOT);
+    initialiser(exposees, TAILLE_MAX_MOT);
+    const char *dictionnaire = "ods4.txt";
+    ListMots mots;
+    CreerListMots(mots,10);
+    ListeDeJoueurs listejoueurs = InitialiserListeJoueur(nb_joueurs);
 
-    Joueur joueurs[4];
 
+    //Creation du paquet de cartes
     initialiser_paquet(cartes);
+
+
+    //Melange du paquet de cartes
     melanger_paquet(cartes);
 
-    distribuer(cartes, joueurs, 4);
+    //Distribuation des cartes aux joueurs
 
+    distribuer(cartes, listejoueurs, nb_joueurs);
+
+    //Fonction qui permet d'afficher les commandes disponibles
     afficher_commandes();
 
-    Pile talon;
-    Pile exposees;
-    initialiser(talon, 20);
-    initialiser(exposees, 20);
 
+    //Indicateur du bon déroulement de la partie
     bool jeu_en_cours = true;
 
-    while (jeu_en_cours){
-        cout << '>';
+    while (jeu_en_cours) {
+        // Debut du tour
+        while(!TourGagne(listejoueurs)){
+            afficher_deck(listejoueurs);
 
-        char c;
-        cin >> c;
+                cout << '>';
+                char cmd;
+                cin >> cmd;
+                switch (cmd) {
+                    case 'T': {
+                        // La lettre doit correspondre à une de celles détenues par le joueur. La carte correspondante est placée au dessus
+                        //des cartes exposées et la première carte du talon est ramassée par le joueur
 
-        if (c == 'T')
+                        cmd_talon(tal, exposees, listejoueurs.joueurs[listejoueurs.indiceJoueurActuel]);
+                        break;
+                    }
+                    case 'E': {
+                        cmd_expose(exposees,listejoueurs.joueurs[listejoueurs.indiceJoueurActuel]);
+
+                        break;
+                    }
+                    case 'P': {
+                        std::string mot;
+                        std::cout << "Entrez un mot : ";
+                        std::cin >> mot;
+                        std::cout << "Vous avez choisi la commande P " << mot << std::endl;
+                        break;
+                    }
+                    case 'R':
+                    case 'C': {
+                        jeu_en_cours = false;
+                        break;
+                    }
+                    default:
+                        std::cout << "Coup invalide, recommencez" << std::endl;
+                        break;
+                }
+
+        }
+
+/*       for (unsigned int i = 0; i < NbJoueurMax; ++i) {
+            cout << "* Joueur" << joueurs[i].numero << endl;
+            cout << ">";
+
+            //Permet au joueur de choisir sa commande
+            char c;
+            cin >> c;
+
+            if (c == 'T') {
+                cmd_talon(tal, exposees, joueurs[0]);
+            } else if (c == 'E') {
+                cmd_expose(exposees, joueurs[0]);
+            } else if (c == 'P') {
+                cout << "P ";
+                char motUtilisateur[MaxLettreMot];
+                cin >> motUtilisateur;
+                if (!verificationDictionnaire(motUtilisateur, dictionnaire)) {
+                    cout << "Le mot ne fait pas partie du dictionnaire, passe ton tour" << endl;
+                }
+            } else if (c == 'R') {
+
+            } else if (c == 'C') {
+
+            }
+        }*/
 
     }
-
-    return 0;
 }
 
 

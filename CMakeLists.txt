@@ -13,4 +13,6 @@ add_executable(lexicon lexicon.cpp
         Conteneur/ListCarte.h
         Conteneur/ListMots.cpp
         Conteneur/ListMots.h
+        Joueurs.cpp
+        Joueurs.h
 )

@@ -26,7 +26,7 @@ struct ListCarte {
  * @param[IN] liste
  *
 */
-void initialiser(ListCarte& liste, unsigned int capa);
+ListCarte initialiser_liste_carte(unsigned int capa);
 
 /*
  * @brief ajouter une carte à une la liste
