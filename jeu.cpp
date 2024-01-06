@@ -126,23 +126,21 @@ void cmd_expose(Pile& exposee, Joueur &j, ListeDeJoueurs& liste) {
     joueur_suivant(liste);
 }
 
-void poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste){
+void cmd_poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste){
     string m;
     string input;
-    ListCarte word;
-    initialiser_liste_carte(TAILLE_MAX_MOT);
+    ListCarte word = initialiser_liste_carte(TAILLE_MAX_MOT);
     cin >> input;
     for (char caractere : input) {
         ajouter(word, caractere);
     };
 
 
-
-
     // Valide par rapport au dictionnaire
-    if(!motDansDictionnaire(input, dictionnaire)){
+    if(!motDansDictionnaire(input, DICTIONARY_PATH)){
         cout << "Le mot ne fait pas partie du dictionnaire, passe ton tour" << endl;
         joueur_suivant(liste);
+        return;
     }
 
 
@@ -155,8 +153,10 @@ void poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste){
     for (unsigned int i = 0; i < word.taille; ++i){
         retirer(j.carte_possede,word.cartes[i]);
     }
+
     //ajouter le mot à la liste de mot sur la table
     AjouterListMots(motPose,word);
+
     // Passe au joueur suivant
     joueur_suivant(liste);
 }

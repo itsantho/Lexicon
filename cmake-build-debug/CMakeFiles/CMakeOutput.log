@@ -1,0 +1,67 @@
+The system is: Windows - 10.0.22621 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/bin/Hostx64/x64/cl.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Compilateur d'optimisation Microsoft (R) C/C++ version 19.34.31935 pour x64
+Copyright (C) Microsoft Corporation. Tous droits réservés.
+
+CMakeCCompilerId.c
+Microsoft (R) Incremental Linker Version 14.34.31935.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:CMakeCCompilerId.exe 
+CMakeCCompilerId.obj 
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.exe"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
+
+The C compiler identification is MSVC, found in "C:/Users/griffith/CLionProjects/LexiconAnthony/cmake-build-debug/CMakeFiles/3.23.2/CompilerIdC/CMakeCCompilerId.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/bin/Hostx64/x64/cl.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Compilateur d'optimisation Microsoft (R) C/C++ version 19.34.31935 pour x64
+Copyright (C) Microsoft Corporation. Tous droits réservés.
+
+CMakeCXXCompilerId.cpp
+Microsoft (R) Incremental Linker Version 14.34.31935.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/out:CMakeCXXCompilerId.exe 
+CMakeCXXCompilerId.obj 
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.exe"
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
+
+The CXX compiler identification is MSVC, found in "C:/Users/griffith/CLionProjects/LexiconAnthony/cmake-build-debug/CMakeFiles/3.23.2/CompilerIdCXX/CMakeCXXCompilerId.exe"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: C:/Users/griffith/CLionProjects/LexiconAnthony/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files/JetBrains/CLion 2022.2/bin/ninja/win/ninja.exe cmTC_5ff98 && [1/2] Building C object CMakeFiles\cmTC_5ff98.dir\CMakeCCompilerABI.c.obj
+Remarque : inclusion du fichier :  C:\Program Files\JetBrains\CLion 2022.2\bin\cmake\win\share\cmake-3.23\Modules\CMakeCompilerABI.h
+[2/2] Linking C executable cmTC_5ff98.exe
+
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: C:/Users/griffith/CLionProjects/LexiconAnthony/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files/JetBrains/CLion 2022.2/bin/ninja/win/ninja.exe cmTC_8d1bc && [1/2] Building CXX object CMakeFiles\cmTC_8d1bc.dir\CMakeCXXCompilerABI.cpp.obj
+Remarque : inclusion du fichier :  C:\Program Files\JetBrains\CLion 2022.2\bin\cmake\win\share\cmake-3.23\Modules\CMakeCompilerABI.h
+[2/2] Linking CXX executable cmTC_8d1bc.exe
+
+
+

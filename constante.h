@@ -11,8 +11,6 @@
 
 #define DICTIONARY_PATH "ods4.txt"
 
-const char *dictionnaire = "ods4.txt";
-
 
 
 // Constantes

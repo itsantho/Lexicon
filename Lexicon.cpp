@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
                         break;
                     }
                     case 'P': {
-                        poser(listejoueurs.joueurs[listejoueurs.indiceJoueurActuel],mots,listejoueurs);
+                        cmd_poser(listejoueurs.joueurs[listejoueurs.indiceJoueurActuel], mots, listejoueurs);
                         break;
                     }
                     case 'R':
@@ -78,35 +78,7 @@ int main(int argc, char* argv[]) {
                         std::cout << "Coup invalide, recommencez" << std::endl;
                         break;
                 }
-            
-
         }
-
-/*       for (unsigned int i = 0; i < NbJoueurMax; ++i) {
-            cout << "* Joueur" << joueurs[i].numero << endl;
-            cout << ">";
-
-            //Permet au joueur de choisir sa commande
-            char c;
-            cin >> c;
-
-            if (c == 'T') {
-                cmd_talon(tal, exposees, joueurs[0]);
-            } else if (c == 'E') {
-                cmd_expose(exposees, joueurs[0]);
-            } else if (c == 'P') {
-                cout << "P ";
-                char motUtilisateur[MaxLettreMot];
-                cin >> motUtilisateur;
-                if (!verificationDictionnaire(motUtilisateur, dictionnaire)) {
-                    cout << "Le mot ne fait pas partie du dictionnaire, passe ton tour" << endl;
-                }
-            } else if (c == 'R') {
-
-            } else if (c == 'C') {
-
-            }
-        }*/
 
     }
 }

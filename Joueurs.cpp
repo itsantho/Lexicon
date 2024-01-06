@@ -61,13 +61,13 @@ void Maj_des_Scores(ListeDeJoueurs& joueurs){
 }
 
 void joueur_suivant(ListeDeJoueurs &liste) {
-    // Passe au joueur suivant qui est actif
-    while(!liste.joueurs[liste.indiceJoueurActuel].actif){
+    do {
+        // Passe au joueur suivant qui est actif
         ++liste.indiceJoueurActuel;
-        if(liste.indiceJoueurActuel > liste.nb_joueurs)
-            liste.indiceJoueurActuel = 0;
 
-    }
+        if(liste.indiceJoueurActuel >= liste.nb_joueurs)
+            liste.indiceJoueurActuel = 0;
+    } while (!liste.joueurs[liste.indiceJoueurActuel].actif);
 }
 
 bool aGagneLeTour(const Joueur& joueurActuel){

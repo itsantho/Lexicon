@@ -66,7 +66,7 @@ void detruire(ListCarte& liste);
 /*
  * @brief Vérifie que la carte se trouve dans la main du joueurs
  * param[in] La liste de carte du joueur
- * param[in] La carte à poser*/
+ * param[in] La carte à cmd_poser*/
 bool contient(const ListCarte& cartes, Carte carte);
 
 /*

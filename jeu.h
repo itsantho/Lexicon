@@ -93,7 +93,7 @@ void cmd_expose(Pile& expose, Joueur&j,ListeDeJoueurs& liste);
  * param[IN,OUT] motPose la liste des mots placés sur la table
  * param[IN] dictionnaire des mots valide
  * */
-void poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste);
+void cmd_poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste);
 
 /*
  * @brief Remplace un mot par un autre en utilisant les lettres du mot remplacé

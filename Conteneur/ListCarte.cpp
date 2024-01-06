@@ -72,8 +72,9 @@ bool contient(const ListCarte &cartes, Carte carte) {
 }
 
 void afficher_liste_carte(const ListCarte& cartes){
-    for(unsigned int i; i < cartes.taille; ++i){
+    for(unsigned int i = 0; i < cartes.taille; ++i){
         std::cout << lire(cartes,i);
     }
 
+    std::cout << std::endl;
 }

@@ -27,6 +27,7 @@ void DetruireListMots(ListMots& listMots) {
     }
     delete[] listMots.mots;
 }
+
 unsigned int TailleList(const ListMots &listMots) {
     return listMots.taille;
 }
