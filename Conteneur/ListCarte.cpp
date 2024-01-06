@@ -2,6 +2,7 @@
 // Created by Anthony on 19/12/2023.
 //
 #include "ListCarte.h"
+#include <iostream>
 #include <cassert>
 
 ListCarte initialiser_liste_carte(unsigned int capa){
@@ -59,7 +60,7 @@ void detruire(ListCarte &liste) {
 }
 
 
-bool contient(ListCarte &cartes, Carte carte) {
+bool contient(const ListCarte &cartes, Carte carte) {
 
     for (unsigned int i = 0; i < cartes.taille; ++i)
     {
@@ -68,4 +69,11 @@ bool contient(ListCarte &cartes, Carte carte) {
     }
 
     return false;
+}
+
+void afficher_liste_carte(const ListCarte& cartes){
+    for(unsigned int i; i < cartes.taille; ++i){
+        std::cout << lire(cartes,i);
+    }
+
 }

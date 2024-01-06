@@ -46,9 +46,9 @@ int main(int argc, char* argv[]) {
 
     while (jeu_en_cours) {
         // Debut du tour
-        while(!TourGagne(listejoueurs)){
+        while(!aGagneLeTour(listejoueurs.joueurs[listejoueurs.indiceJoueurActuel])){
             afficher_deck(listejoueurs);
-
+            afficher_liste_mots(mots);
                 cout << '>';
                 char cmd;
                 cin >> cmd;
@@ -57,19 +57,16 @@ int main(int argc, char* argv[]) {
                         // La lettre doit correspondre à une de celles détenues par le joueur. La carte correspondante est placée au dessus
                         //des cartes exposées et la première carte du talon est ramassée par le joueur
 
-                        cmd_talon(tal, exposees, listejoueurs.joueurs[listejoueurs.indiceJoueurActuel]);
+                        cmd_talon(tal, exposees, listejoueurs.joueurs[listejoueurs.indiceJoueurActuel],listejoueurs);
                         break;
                     }
                     case 'E': {
-                        cmd_expose(exposees,listejoueurs.joueurs[listejoueurs.indiceJoueurActuel]);
+                        cmd_expose(exposees,listejoueurs.joueurs[listejoueurs.indiceJoueurActuel],listejoueurs);
 
                         break;
                     }
                     case 'P': {
-                        std::string mot;
-                        std::cout << "Entrez un mot : ";
-                        std::cin >> mot;
-                        std::cout << "Vous avez choisi la commande P " << mot << std::endl;
+                        poser(listejoueurs.joueurs[listejoueurs.indiceJoueurActuel],mots,listejoueurs);
                         break;
                     }
                     case 'R':
@@ -81,6 +78,7 @@ int main(int argc, char* argv[]) {
                         std::cout << "Coup invalide, recommencez" << std::endl;
                         break;
                 }
+            
 
         }
 

@@ -8,27 +8,12 @@
 //
 // chemin relatif du fichier dictionnaire à utiliser
 //
+
 #define DICTIONARY_PATH "ods4.txt"
 
-//
-// Récupère la position (à partir de 0) d'une lettre dans l'alphabet
-// 'A' -> 0
-// 'B' -> 1
-// ...
-// 'Y' -> 24
-// 'Z' -> 25
-//
-#define CARD_NO(c) ((c) - 'A')
+const char *dictionnaire = "ods4.txt";
 
-//
-// Récupère la valeur correspondant à une position (à partir de 0) dans l'alphabet
-// 0 -> 'A'
-// 1 -> 'B'
-// ...
-// 24 -> 'Y'
-// 25 -> 'Z'
-//
-#define CARD_VALUE(cardNo) ((cardNo) + 'A')
+
 
 // Constantes
 enum {

@@ -19,7 +19,7 @@ unsigned int ScoreJoueur(const Joueur& joueur) {
     for (unsigned int i = 0; i < joueur.carte_possede.taille ;++i)
     {
         const Carte card = joueur.carte_possede.cartes[i];
-        score += scores[CARD_NO(card)];
+        score += scores[card];
     }
 
     return score;
@@ -68,4 +68,11 @@ void joueur_suivant(ListeDeJoueurs &liste) {
             liste.indiceJoueurActuel = 0;
 
     }
+}
+
+bool aGagneLeTour(const Joueur& joueurActuel){
+    if (joueurActuel.carte_possede.taille == 0)
+        return true;
+    else
+        return false;
 }

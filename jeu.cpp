@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cassert>
-#include <cstring>
+
 #include <fstream>
 
 class NbJoueurMax;
@@ -92,7 +92,7 @@ bool TourGagne(ListeDeJoueurs& liste){
 
 
 
-void cmd_talon(Pile& tal, Pile& expose, Joueur& j)  {
+void cmd_talon(Pile& tal, Pile& expose, Joueur& j, ListeDeJoueurs& liste)  {
     char lettre;
     cin >> lettre;
 
@@ -108,9 +108,10 @@ void cmd_talon(Pile& tal, Pile& expose, Joueur& j)  {
     depiler(tal);
     //La première carte de talon est ajouté à la main du joueur
     ajouter(j.carte_possede, c);
+    joueur_suivant(liste);
 }
 
-void cmd_expose(Pile& exposee, Joueur &j) {
+void cmd_expose(Pile& exposee, Joueur &j, ListeDeJoueurs& liste) {
     char lettre;
     cin >> lettre;
 
@@ -122,20 +123,27 @@ void cmd_expose(Pile& exposee, Joueur &j) {
     empiler(exposee, lettre);
     retirer(j.carte_possede,lettre);
     ajouter(j.carte_possede, tmp);
+    joueur_suivant(liste);
 }
 
-void poser(Joueur& j, ListMots& motPose, const ListMots& dictionnaire){
+void poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste){
+    string m;
+    string input;
     ListCarte word;
     initialiser_liste_carte(TAILLE_MAX_MOT);
-
-    char input[16];
     cin >> input;
-    //On ajoute à mot les caractères saisies
-    for (unsigned int i = 0; i < strlen(input); ++i)
-        ajouter(word, input[i]);
+    for (char caractere : input) {
+        ajouter(word, caractere);
+    };
+
+
 
 
     // Valide par rapport au dictionnaire
+    if(!motDansDictionnaire(input, dictionnaire)){
+        cout << "Le mot ne fait pas partie du dictionnaire, passe ton tour" << endl;
+        joueur_suivant(liste);
+    }
 
 
     // On vérifie si le joueur possèdes ces cartes
@@ -149,6 +157,8 @@ void poser(Joueur& j, ListMots& motPose, const ListMots& dictionnaire){
     }
     //ajouter le mot à la liste de mot sur la table
     AjouterListMots(motPose,word);
+    // Passe au joueur suivant
+    joueur_suivant(liste);
 }
 
 void remplacer(Joueur& j, ListMots& motsPose, const ListMots dictionnaire){
@@ -167,35 +177,30 @@ void remplacer(Joueur& j, ListMots& motsPose, const ListMots dictionnaire){
     // Supprimer les cartes utilisées pour remplacer et récupérer les cartes remplacées
 }
 
-/*bool verificationDictionnaire(const char* mot, const char* Dictionnaire) {
 
-    char motUtilisateur[56];
-    strcpy(motUtilisateur, mot);
+bool motDansDictionnaire(const std::string& mot, const std::string& fichierDictionnaire) {
+    // Ouverture du fichier
 
-    ifstream Fichier_dictionnaire(Dictionnaire);
+    std::ifstream fichier(fichierDictionnaire);
 
-    if (!Fichier_dictionnaire.is_open()) {
-        cerr << "Erreur le fichier n'est pas ouvert" << endl;
+    // Vérification si le fichier est ouvert correctement
+    if (!fichier.is_open()) {
+        std::cerr << "Erreur lors de l'ouverture du fichier." << std::endl;
         return false;
     }
 
-    char motDictionnaire[56];
-    while (Fichier_dictionnaire >> motDictionnaire) {
-
-        char motDictionnaireMinuscules[56];
-        strcpy(motDictionnaireMinuscules, motDictionnaire);
-
-        if (strcmp(motUtilisateur, motDictionnaireMinuscules) == 0) {
-
-            Fichier_dictionnaire.close();
+    // Recherche du mot dans le fichier
+    std::string ligne;
+    while (std::getline(fichier, ligne)) {
+        // Comparaison sans tenir compte de la casse (minuscules/majuscules)
+        if (mot == ligne) {
+            fichier.close();  // Fermeture du fichier
             return true;
         }
     }
 
-    Fichier_dictionnaire.close();
-
-    return false;
+    fichier.close();  // Fermeture du fichier
+    return false;     // Le mot n'a pas été trouvé
 }
-*/
 
 

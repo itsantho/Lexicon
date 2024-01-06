@@ -10,7 +10,7 @@
 struct ListMots{
     unsigned int taille;
     unsigned int capacite;
-    ListCarte* mots;
+    ListCarte *mots;
 };
 enum
 {
@@ -22,6 +22,11 @@ enum
 */
 
 void CreerListMots(ListMots& liste, unsigned int capa);
+
+/*
+ * @brief Affiche tout les mots posé
+ * @param[IN] Liste de mot*/
+void afficher_liste_mots(const ListMots& liste);
 
 /*
  * @brief Desalloue les mots de la liste

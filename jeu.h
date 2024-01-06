@@ -5,9 +5,8 @@
 #include "Conteneur/piles.h"
 #include "Conteneur/ListMots.h"
 #include "Joueurs.h"
-
-
-
+#include <cstring>
+#include <string>
 
 
 /*
@@ -74,16 +73,19 @@ bool TourGagne(ListeDeJoueurs& liste);
 
 /*
  * @brief Commande Talon
- * @param[out] pile
+ * @param[out] pile de talon
+ * @param[out] pile de talon
+ * @param[out] les cartes du joueurs
+ * @param[out] la liste des joueurs
  * @param[IN] lettre
  * */
-void cmd_talon(Pile& tal, Pile& expose, Joueur& j);
+void cmd_talon(Pile& tal, Pile& expose, Joueur& j, ListeDeJoueurs& liste);
 
 /*
  * @brief Remplace la carte au sommet par la carte du joueur
  * @param[OUT] expose
  * param[OUT] la carte*/
-void cmd_expose(Pile& expose, Joueur&j);
+void cmd_expose(Pile& expose, Joueur&j,ListeDeJoueurs& liste);
 
 /*
  * @brief Poser un mot et retire les lettres de la main du joueur
@@ -91,7 +93,7 @@ void cmd_expose(Pile& expose, Joueur&j);
  * param[IN,OUT] motPose la liste des mots placés sur la table
  * param[IN] dictionnaire des mots valide
  * */
-void poser(Joueur& j, ListMots& motPose, const ListMots& dictionnaire);
+void poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste);
 
 /*
  * @brief Remplace un mot par un autre en utilisant les lettres du mot remplacé
@@ -117,7 +119,12 @@ void completer(Joueur& j, ListMots& motsPose, const ListMots& dictionnaire);
  * @return True ou False
  *
  */
-//bool verificationDictionnaire(const char* mot, const char* Dictionnaire);
+/*
+ * @brief Vérifie si un mot se trouve dans le dictionnaire
+ * param[in] Le mot à comparer
+ * param[in] Le dictionnaire*/
+bool motDansDictionnaire(const std::string& mot, const std::string& fichierDictionnaire);
+
 
 
 #endif // FONCTION_H

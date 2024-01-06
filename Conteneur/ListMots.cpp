@@ -3,13 +3,22 @@
 //
 
 #include <cassert>
+
 #include "ListMots.h"
+#include <iostream>
 
 void CreerListMots(ListMots& liste, unsigned int capa) {
     liste.capacite = capa;
     liste.mots = new ListCarte[capa];
     liste.taille = 0;
 }
+
+void afficher_liste_mots(const ListMots& liste){
+    for(unsigned int i = 0 ; i < liste.taille; ++i){
+        afficher_liste_carte(liste.mots[i]);
+    }
+}
+
 
 void DetruireListMots(ListMots& listMots) {
     for(unsigned int i = 0; i < listMots.taille; ++i){
