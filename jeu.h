@@ -18,7 +18,7 @@ unsigned int demander_nb_joueurs();
 /*
  * @brief afficher_cartes un paquet de carte
  * @param[IN] tableau de type Carte
- * @param[IN] Nombre de carte restante dans le paquet
+ * @param[IN] Nombre de cartes restantes dans le paquet
 */
 void afficher_cartes(const ListCarte& c);
 
@@ -47,29 +47,23 @@ void donner_une_carte(Joueur& j, Carte c);
  * @param[IN]
  * @param[OUT]
  * @param[OUT]
- * @return le nombre de carte restante
+ * @return le nombre de cartes restante
 */
 void distribuer(ListCarte& c, ListeDeJoueurs& liste,unsigned int nb_joueur);
 
+
 /*
- * @brief Affiche le deck du joueur
+ * @brief Affiche le joueur, la carte exposee et le deck du joueur
  * @param[in] Liste de joueur
+ * param[in] Pile
 */
-void afficher_deck(ListeDeJoueurs& liste);
+void affichage(ListeDeJoueurs& liste, Pile& p);
 
 /*
  * @brief Affiche les commandes disponibles
  * @param[in] Commandes
  */
 void afficher_commandes();
-
-/*
- * @brief Vérifie si le tour est fini
- * param[IN] Liste dee joueurs
- * @return True ou False
- * */
-bool TourGagne(ListeDeJoueurs& liste);
-
 
 /*
  * @brief Commande Talon
@@ -104,27 +98,25 @@ void cmd_poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste);
 void remplacer(Joueur& j, ListMots& motsPose, const ListMots& dictionnaire);
 
 /*
- * @brief Complete un mot en ajoutant les cartes du joueurs
+ * @brief Complete un mot en ajoutant les cartes du joueur
  * @param[IN,OUT] j le Joueur actuel
  * param[IN,OUT] motPose la liste des mots placés sur la table
  * param[IN] dictionnaire des mots valide
  */
-
 void completer(Joueur& j, ListMots& motsPose, const ListMots& dictionnaire);
 
 /*
- * @brief Verifie qu'un mot est bien présent dans le dictionnaire
+ * @brief Vérifie qu'un mot est bien présent dans le dictionnaire
  * @param[IN] Le mot
  * @param[IN] Le dictionnaire
  * @return True ou False
  *
  */
-/*
- * @brief Vérifie si un mot se trouve dans le dictionnaire
- * param[in] Le mot à comparer
- * param[in] Le dictionnaire*/
-bool motDansDictionnaire(const std::string& mot, const std::string& fichierDictionnaire);
+bool motdansdictionnaire(const ListCarte& mot);
 
+bool comparaison(const ListCarte& mot1, const char* mot2);
+
+bool jeuEnCours(ListeDeJoueurs& liste);
 
 
 #endif // FONCTION_H

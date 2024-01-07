@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cassert>
-
+#include <iomanip>
 #include <fstream>
 
 class NbJoueurMax;
@@ -22,11 +22,10 @@ unsigned int demander_nb_joueurs(){
     return nb_joueurs;
 }
 
-
-
 void initialiser_paquet(ListCarte& c){
     // i la position de carte dans le paquet de 51, index la lettre, j la quantité
     c = initialiser_liste_carte(NbrCartes);
+    // Assigne à chaque carte son nombre d'apparition dans le paquet
     unsigned int qte[NbrCartesUnique] = {2,2,2,2,5,1,2,2,4,1,1,2,1,3,2,1,1,3,3,3,3,1,1,1,1,1};
     for (unsigned int i = 0; i < NbrCartesUnique; ++i) {
         for (unsigned int j = 0; j < qte[i]; ++j) {
@@ -61,8 +60,6 @@ void donner_une_carte(Joueur& j, Carte c) {
         ajouter(j.carte_possede, c);
 }
 
-
-
 void distribuer(ListCarte& c, ListeDeJoueurs& liste, unsigned int nb_joueur) {
     for (unsigned int i = 0; i < nb_joueur; ++i) {
         for (unsigned int j = 0; j < NbrCarteParJoueur; ++j) {
@@ -72,25 +69,18 @@ void distribuer(ListCarte& c, ListeDeJoueurs& liste, unsigned int nb_joueur) {
     }
 }
 
-void afficher_deck(ListeDeJoueurs& liste) {
-    cout << "* JOUEUR" << ' ' << liste.indiceJoueurActuel+1 << ' ';
-    afficher_cartes(liste.joueurs[liste.indiceJoueurActuel].carte_possede);
-    cout << endl;
+void affichage(ListeDeJoueurs& liste,Pile& p) {
+    cout << "* JOUEUR" << ' ' << liste.indiceJoueurActuel+1 << " (" << sommet(p) << ") ";
+
+    afficher_cartes(joueur_actuel(liste).carte_possede);
+
 }
+
+
 
 void afficher_commandes() {
     cout << "(Commandes valides : TEPRC)" << endl;
 }
-
-bool TourGagne(ListeDeJoueurs& liste){
-    for(unsigned int i = 0; i < liste.nb_joueurs; ++i){
-        if(liste.joueurs[i].carte_possede.taille == 0)
-            return true;
-    }
-    return false;
-}
-
-
 
 void cmd_talon(Pile& tal, Pile& expose, Joueur& j, ListeDeJoueurs& liste)  {
     char lettre;
@@ -99,14 +89,14 @@ void cmd_talon(Pile& tal, Pile& expose, Joueur& j, ListeDeJoueurs& liste)  {
     // Vérifie si le joueur possède la carte
     if (!contient(j.carte_possede, lettre))
         return;
-    // empile la carte au dessus des cartes exposés
+    // Empile la carte au-dessus des cartes exposées
     empiler(expose,lettre);
     // Supprime la carte de la main du joueur
     retirer(j.carte_possede, lettre);
 
     Carte c = sommet(tal);
     depiler(tal);
-    //La première carte de talon est ajouté à la main du joueur
+    // La première carte de talon est ajouté à la main du joueur
     ajouter(j.carte_possede, c);
     joueur_suivant(liste);
 }
@@ -117,44 +107,47 @@ void cmd_expose(Pile& exposee, Joueur &j, ListeDeJoueurs& liste) {
 
     if (!contient(j.carte_possede, lettre))
         return;
-
+    // La carte exposée est remplacée par la carte du joueur
     Carte tmp = sommet(exposee);
     depiler(exposee);
     empiler(exposee, lettre);
+    // Le joueur remplace sa carte par l'ancienne carte exposée
     retirer(j.carte_possede,lettre);
     ajouter(j.carte_possede, tmp);
+    // Fin de la commande et passe au joueur suivant
     joueur_suivant(liste);
 }
 
 void cmd_poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste){
-    string m;
-    string input;
+    char input[TAILLE_MAX_MOT+1];
     ListCarte word = initialiser_liste_carte(TAILLE_MAX_MOT);
-    cin >> input;
-    for (char caractere : input) {
-        ajouter(word, caractere);
+
+    cin >> std::setw(TAILLE_MAX_MOT) >> input;
+
+    for (unsigned int i = 0; i < strlen(input); ++i) {
+        ajouter(word, input[i]);
     };
 
 
     // Valide par rapport au dictionnaire
-    if(!motDansDictionnaire(input, DICTIONARY_PATH)){
+    if(!motdansdictionnaire(word)){
         cout << "Le mot ne fait pas partie du dictionnaire, passe ton tour" << endl;
+        penaliser(joueur_actuel(liste));
         joueur_suivant(liste);
         return;
     }
 
-
-    // On vérifie si le joueur possèdes ces cartes
+    // On vérifie si le joueur possède ces cartes
     for(unsigned int i = 0; i < word.taille; ++i){
         if (!contient(j.carte_possede,word.cartes[i]))
             return;
     }
-    //Supprimer les carte du joueurs
+    // Supprimer les cartes du joueur
     for (unsigned int i = 0; i < word.taille; ++i){
         retirer(j.carte_possede,word.cartes[i]);
     }
 
-    //ajouter le mot à la liste de mot sur la table
+    // Ajouter le mot à la liste de mot sur la table
     AjouterListMots(motPose,word);
 
     // Passe au joueur suivant
@@ -178,10 +171,10 @@ void remplacer(Joueur& j, ListMots& motsPose, const ListMots dictionnaire){
 }
 
 
-bool motDansDictionnaire(const std::string& mot, const std::string& fichierDictionnaire) {
+bool motdansdictionnaire(const ListCarte& mot) {
     // Ouverture du fichier
 
-    std::ifstream fichier(fichierDictionnaire);
+    std::ifstream fichier(DICTIONARY_PATH);
 
     // Vérification si le fichier est ouvert correctement
     if (!fichier.is_open()) {
@@ -190,10 +183,9 @@ bool motDansDictionnaire(const std::string& mot, const std::string& fichierDicti
     }
 
     // Recherche du mot dans le fichier
-    std::string ligne;
-    while (std::getline(fichier, ligne)) {
-        // Comparaison sans tenir compte de la casse (minuscules/majuscules)
-        if (mot == ligne) {
+    char ligne[TAILLE_MAX_MOT+1];
+    while (fichier.getline(ligne, TAILLE_MAX_MOT + 1)) {
+        if (comparaison(mot,ligne)) {
             fichier.close();  // Fermeture du fichier
             return true;
         }
@@ -202,5 +194,21 @@ bool motDansDictionnaire(const std::string& mot, const std::string& fichierDicti
     fichier.close();  // Fermeture du fichier
     return false;     // Le mot n'a pas été trouvé
 }
+
+bool comparaison(const ListCarte& mot1, const char* mot2)
+{
+    for(unsigned int i = 0; i < mot1.taille; ++i){
+        if (lire(mot1, i) != mot2[i])
+            return false;
+    }
+    return true;
+}
+
+bool jeuEnCours(ListeDeJoueurs& liste){
+    if(liste.nb_joueurs_actifs<=1)
+        return false;
+    return true;
+}
+
 
 

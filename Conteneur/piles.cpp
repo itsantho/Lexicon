@@ -2,11 +2,18 @@
 // Created by ieman on 26/12/2023.
 #include "piles.h"
 #include "ListCarte.h"
+#include <cassert>
 
-void initialiser(Pile &p, unsigned int capa) {
-    initialiser_liste_carte(capa);
+void pileDeCartes(Pile& p, const ListCarte& listeDeCarte) {
+    p.cartes = listeDeCarte;
 }
 
+Pile initialiser_pile(unsigned int capa_initiale){
+    Pile p {
+        .cartes = initialiser_liste_carte(capa_initiale)
+    };
+    return p;
+}
 bool estVide(const Pile& p)
 {
     return p.cartes.taille == 0;
@@ -27,7 +34,8 @@ void empiler(Pile& p, Carte it)
     ajouter(p.cartes, it);
 }
 
-void depiler(Pile& p)
+Carte depiler(Pile& p)
 {
-    --p.cartes.taille;
+    assert(!estVide(p));
+    return retirer_derniere_cartes(p.cartes);
 }

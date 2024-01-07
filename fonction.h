@@ -1,13 +1,9 @@
 #ifndef FONCTION_H
 #define FONCTION_H
 #include "Conteneur/ListCarte.h"
+#include "constante.h"
 
-// Constantes
-enum {
-    NbrCartes = 51,
-    NbrCartesUnique = 26,
-    NbrCarteParJoueur = 10
-};
+
 
 // Un type carte qui représente un char
 typedef char Carte;
@@ -22,7 +18,7 @@ struct Joueur {
 /*
  * @brief afficher un paquet de carte
  * @param[IN] tableau de type Carte
- * @param[IN] Nombre de carte restante dans le paquet
+ * @param[IN] Nombre de cartes restantes dans le paquet
 */
 void afficher(const ListCarte& c);
 

@@ -27,7 +27,7 @@ void ajouter(ListCarte &liste, Carte carte) {
         liste.cartes = nouveau;
         liste.capacite *=2;
     }
-    // Ajoute le mot à la fin du tableay
+    // Ajoute le mot à la fin du tableau
     liste.cartes[liste.taille] = carte;
     ++liste.taille;
 }
@@ -77,4 +77,13 @@ void afficher_liste_carte(const ListCarte& cartes){
     }
 
     std::cout << std::endl;
+}
+
+Carte retirer_derniere_cartes(ListCarte& listeDecarte)
+{
+    const Carte sommet = listeDecarte.cartes[listeDecarte.taille - 1];
+
+    --listeDecarte.taille;
+
+    return sommet;
 }

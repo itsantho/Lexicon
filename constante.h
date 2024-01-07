@@ -24,7 +24,6 @@ enum {
     NbrCarteParJoueur = 10,
 
     MaxLettreMot = 60,
-    NbJoueurMax = 4,
 
     NB_MOTS_DICTIONNAIRE= 369085,
     TAILLE_MAX_MOT = 15,
@@ -36,7 +35,5 @@ enum {
 
 // Un type carte qui représente un char
 typedef char Carte;
-
-
 
 #endif //LEXICON_CONSTANTE_H

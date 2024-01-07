@@ -3,7 +3,7 @@ project(lexicon)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(lexicon lexicon.cpp
+add_executable(lexicon main.cpp
         jeu.h
         jeu.cpp
         constante.h

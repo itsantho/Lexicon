@@ -64,7 +64,7 @@ Carte lire(const ListCarte& liste, unsigned int index);
 void detruire(ListCarte& liste);
 
 /*
- * @brief Vérifie que la carte se trouve dans la main du joueurs
+ * @brief Vérifie que la carte se trouve dans la main du joueur
  * param[in] La liste de carte du joueur
  * param[in] La carte à cmd_poser*/
 bool contient(const ListCarte& cartes, Carte carte);
@@ -73,5 +73,9 @@ bool contient(const ListCarte& cartes, Carte carte);
  * @brief affiche le mot que forme les cartes
  * param[in] Liste de carte*/
 void afficher_liste_carte(const ListCarte& cartes);
+/*
+ * @brief Retire la dernière carte (sommet)
+ * param[out] La carte*/
+Carte retirer_derniere_cartes(ListCarte& cardList);
 
 #endif //LEXICON_LISTCARTE_H
