@@ -1,4 +1,3 @@
-
 #include "jeu.h"
 #include "Conteneur/ListCarte.h"
 #include "Conteneur/piles.h"
@@ -7,85 +6,101 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
+int main() {
+    //
+    // Lancement
+    //
+
     // On demande le nombre de joueurs
     unsigned int nb_joueurs = 0;
-    nb_joueurs = demander_nb_joueurs(); // Vérifie si le nombre de joueurs dépasse le minimum ou maximum
-    // Initialisation
+    nb_joueurs = demander_nb_joueurs();
 
-    // Paquet de carte
-    ListCarte cartes;
-    Pile exposees;
-    Pile tal;
+    //
+    // Préparation de tous les conteneurs
+    //
+    ListeDeCartes cartes; // Paquet de carte
+    Pile exposees; // l'exposée
+    Pile talon; // Le talon
+    ListeDeMots mots; // Liste des mots posés sur la table
+    creer_liste_mots(mots,CAPACITE_LISTE_MOTS);
 
-
-    ListMots mots;
-    CreerListMots(mots,10);
+    // Création des joueurs
     ListeDeJoueurs listejoueurs = initialiserlistejoueur(nb_joueurs);
-
 
     //Creation du paquet de cartes
     initialiser_paquet(cartes);
 
-
-    //Melange du paquet de cartes
-    melanger_paquet(cartes);
-
-    //Distribution des cartes aux joueurs
-    distribuer(cartes, listejoueurs, nb_joueurs);
-
-
-
-    // Le reste des cartes deviennent la pile talon
-    exposees = initialiser_pile();
-    tal = initialiser_pile();
-    //Assigne le paquet de cartes au talon
-    pileDeCartes(tal,cartes);
-    // La carte au sommet du reste des cartes devient la carte exposé
-    empiler(exposees, depiler(tal));
-    //Fonction qui permet d'afficher les commandes disponibles
+    //Afficher les commandes disponibles
     afficher_commandes();
 
 
     while (jeuEnCours(listejoueurs)) {
-        // Debut du tour
+        // DEBUT DU TOUR
+
+        // Initialisation du tour
+
+        //Melange du paquet de cartes
+        melanger_paquet(cartes);
+
+        //Distribution des cartes aux joueurs
+        distribuer(cartes, listejoueurs, nb_joueurs);
+
+        // Le reste des cartes deviennent la pile talon
+        exposees = initialiser_pile();
+        talon = initialiser_pile();
+
+        //Assigne le paquet de cartes au talon
+        pileDeCartes(talon,cartes);
+
+        // La carte au sommet du reste des cartes (talon) devient la carte exposée
+        empiler(exposees, depiler(talon));
+
         while(!agagneletour(joueur_actuel(listejoueurs))){
+
+            // AFFICHAGE
             affichage(listejoueurs, exposees);
             afficher_liste_mots(mots);
-                cout << '>';
-                char cmd;
-                cin >> cmd;
-                switch (cmd) {
-                    case 'T': {
-                        // La lettre doit correspondre à une de celles détenues par le joueur. La carte correspondante est placée au dessus
-                        //des cartes exposées et la première carte du talon est ramassée par le joueur
 
-                        cmd_talon(tal, exposees, joueur_actuel(listejoueurs),listejoueurs);
-                        break;
-                    }
-                    case 'E': {
-                        cmd_expose(exposees,joueur_actuel(listejoueurs),listejoueurs);
+            // SAISIE
+            char cmd;
+            cout << '>';
+            cin >> cmd;
 
-                        break;
-                    }
-                    case 'P': {
-                        cmd_poser(joueur_actuel(listejoueurs), mots, listejoueurs);
-                        break;
-                    }
-                    case 'R':
-                    case 'C': {
-
-                        break;
-                    }
-                    default:
-                        cout << "Coup invalide, recommencez" << endl;
-                        break;
+            switch (cmd) {
+                case 'T': {
+                    cmd_talon(talon, exposees, joueur_actuel(listejoueurs),listejoueurs);
+                    break;
                 }
+                case 'E': {
+                    cmd_expose(exposees,joueur_actuel(listejoueurs),listejoueurs);
+                    break;
+                }
+                case 'P': {
+                    cmd_poser(joueur_actuel(listejoueurs), mots, listejoueurs);
+                    break;
+                }
+                case 'R':
+                case 'C': {
+                    cmd_completer(joueur_actuel(listejoueurs),mots,listejoueurs);
+                    break;
+                }
+                default:
+                    cout << "Coup invalide, recommencez" << endl;
+                    break;
+            }
         }
+        // FIN DU TOUR
         // Actualiser le score
         maj_des_scores(listejoueurs);
+        afficher_score(listejoueurs);
 
+        // Réinitialiser toutes les données avant de commercer une nouvelle manche
+        detruire_pile(exposees);
+        detruire_pile(talon);
+        detruire_liste_mots(mots);
+        detruire_liste_carte(cartes);
     }
+    cout << "La partie est finie";
 }
 
 

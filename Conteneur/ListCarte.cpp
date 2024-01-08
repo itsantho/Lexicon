@@ -1,12 +1,9 @@
-//
-// Created by Anthony on 19/12/2023.
-//
 #include "ListCarte.h"
 #include <iostream>
 #include <cassert>
 
-ListCarte initialiser_liste_carte(unsigned int capa){
-    const ListCarte cartes = {
+ListeDeCartes initialiser_liste_carte(unsigned int capa){
+    const ListeDeCartes cartes = {
             .cartes = capa ? new Carte[capa]: nullptr,
             .taille = 0,
             .capacite = capa
@@ -14,7 +11,7 @@ ListCarte initialiser_liste_carte(unsigned int capa){
     return cartes;
 }
 
-void ajouter(ListCarte &liste, Carte carte) {
+void ajouter(ListeDeCartes &liste, Carte carte) {
     // Vérifier si on a besoin de réallouer
     if(liste.taille >= liste.capacite) {
         Carte* nouveau = new Carte[liste.capacite*2];
@@ -32,17 +29,17 @@ void ajouter(ListCarte &liste, Carte carte) {
     ++liste.taille;
 }
 
-void modifier(ListCarte &liste, unsigned int index, Carte carte) {
+void modifier(ListeDeCartes &liste, unsigned int index, Carte carte) {
     assert(index < liste.taille);
     liste.cartes[index] = carte;
 }
 
-Carte lire(const ListCarte &liste, unsigned int index) {
+Carte lire(const ListeDeCartes &liste, unsigned int index) {
     assert(index < liste.taille);
     return liste.cartes[index];
 }
 
-void retirer(ListCarte &liste, Carte carte) {
+void retirer(ListeDeCartes &liste, Carte carte) {
 // (A, B, C, D, E, F)
 // (A, B, D, E, F)
 
@@ -55,12 +52,12 @@ void retirer(ListCarte &liste, Carte carte) {
     --liste.taille;
 }
 
-void detruire(ListCarte &liste) {
+void detruire_liste_carte(ListeDeCartes &liste) {
     delete[] liste.cartes;
 }
 
 
-bool contient(const ListCarte &cartes, Carte carte) {
+bool contient(const ListeDeCartes &cartes, Carte carte) {
 
     for (unsigned int i = 0; i < cartes.taille; ++i)
     {
@@ -71,7 +68,7 @@ bool contient(const ListCarte &cartes, Carte carte) {
     return false;
 }
 
-void afficher_liste_carte(const ListCarte& cartes){
+void afficher_liste_carte(const ListeDeCartes& cartes){
     for(unsigned int i = 0; i < cartes.taille; ++i){
         std::cout << lire(cartes,i);
     }
@@ -79,7 +76,7 @@ void afficher_liste_carte(const ListCarte& cartes){
     std::cout << std::endl;
 }
 
-Carte retirer_derniere_cartes(ListCarte& listeDecarte)
+Carte retirer_derniere_cartes(ListeDeCartes& listeDecarte)
 {
     const Carte sommet = listeDecarte.cartes[listeDecarte.taille - 1];
 

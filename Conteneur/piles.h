@@ -1,7 +1,3 @@
-//
-// Created by ieman on 26/12/2023.
-//
-
 #ifndef LEXICON_PILES_H
 #define LEXICON_PILES_H
 
@@ -9,13 +5,13 @@
 
 
 struct Pile {
-    ListCarte cartes;
+    ListeDeCartes cartes;
 };
 /*
  * @brief Créer une Pile de carte avec une liste de cartes
  * @param[OUT] la pile
  * @param[in] Liste de carte*/
-void pileDeCartes(Pile& p, const ListCarte& listeDeCarte);
+void pileDeCartes(Pile& p, const ListeDeCartes& listeDeCarte);
 /*
  * @brief initialise une pile de carte
  * @param[in] capacité initial à 0
@@ -23,7 +19,7 @@ void pileDeCartes(Pile& p, const ListCarte& listeDeCarte);
 Pile initialiser_pile(unsigned int capa_initiale = 0);
 
 bool estVide(const Pile& p);
-void detruire(Pile& p);
+void detruire_pile(Pile& p);
 
 Carte sommet(Pile& p);
 

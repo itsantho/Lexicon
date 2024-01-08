@@ -20,19 +20,19 @@ unsigned int demander_nb_joueurs();
  * @param[IN] tableau de type Carte
  * @param[IN] Nombre de cartes restantes dans le paquet
 */
-void afficher_cartes(const ListCarte& c);
+void afficher_cartes(const ListeDeCartes& c);
 
 /*
  *@ brief initialiser_paquet un paquet de carte
  *@ param[OUT] tableau de type Carte
 */
-void initialiser_paquet(ListCarte& c);
+void initialiser_paquet(ListeDeCartes& c);
 
 /*
  * @brief mélanger un paquet de carte
  * @param[OUT] tableau de type Carte
 */
-void melanger_paquet(ListCarte& c);
+void melanger_paquet(ListeDeCartes& c);
 
 /*
  * @brief Donne une carte à un joueur
@@ -49,7 +49,7 @@ void donner_une_carte(Joueur& j, Carte c);
  * @param[OUT]
  * @return le nombre de cartes restante
 */
-void distribuer(ListCarte& c, ListeDeJoueurs& liste,unsigned int nb_joueur);
+void distribuer(ListeDeCartes& c, ListeDeJoueurs& liste,unsigned int nb_joueur);
 
 
 /*
@@ -64,6 +64,25 @@ void affichage(ListeDeJoueurs& liste, Pile& p);
  * @param[in] Commandes
  */
 void afficher_commandes();
+
+/*
+ * @brief Vérifie qu'un mot est bien présent dans le dictionnaire
+ * @param[IN] Le mot
+ * @param[IN] Le dictionnaire
+ * @return True ou False
+ */
+
+bool motdansdictionnaire(const ListeDeCartes& mot);
+
+bool comparaison(const ListeDeCartes& mot1, const char* mot2);
+
+bool jeuEnCours(ListeDeJoueurs& liste);
+
+/*
+ * @brief affiche le score des joueurs
+ * @param[in] La liste des joueurs
+ * */
+void afficher_score(ListeDeJoueurs& listeDeJoueurs);
 
 /*
  * @brief Commande Talon
@@ -83,11 +102,11 @@ void cmd_expose(Pile& expose, Joueur&j,ListeDeJoueurs& liste);
 
 /*
  * @brief Poser un mot et retire les lettres de la main du joueur
- * @param[IN,OUT] j le joueur actuelle
+ * @param[IN,OUT] j le joueur actuel
  * param[IN,OUT] motPose la liste des mots placés sur la table
  * param[IN] dictionnaire des mots valide
  * */
-void cmd_poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste);
+void cmd_poser(Joueur& j, ListeDeMots& motPose, ListeDeJoueurs& listeDeJoueurs);
 
 /*
  * @brief Remplace un mot par un autre en utilisant les lettres du mot remplacé
@@ -95,7 +114,7 @@ void cmd_poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste);
  * param[IN,OUT] motPose la liste des mots placés sur la table
  * param[IN] dictionnaire des mots valide
  * */
-void remplacer(Joueur& j, ListMots& motsPose, const ListMots& dictionnaire);
+void cmd_remplacer(Joueur& j, ListeDeMots& motsPose);
 
 /*
  * @brief Complete un mot en ajoutant les cartes du joueur
@@ -103,20 +122,7 @@ void remplacer(Joueur& j, ListMots& motsPose, const ListMots& dictionnaire);
  * param[IN,OUT] motPose la liste des mots placés sur la table
  * param[IN] dictionnaire des mots valide
  */
-void completer(Joueur& j, ListMots& motsPose, const ListMots& dictionnaire);
-
-/*
- * @brief Vérifie qu'un mot est bien présent dans le dictionnaire
- * @param[IN] Le mot
- * @param[IN] Le dictionnaire
- * @return True ou False
- *
- */
-bool motdansdictionnaire(const ListCarte& mot);
-
-bool comparaison(const ListCarte& mot1, const char* mot2);
-
-bool jeuEnCours(ListeDeJoueurs& liste);
+void cmd_completer(Joueur& j, ListeDeMots& motsPose, ListeDeJoueurs& listeDeJoueurs);
 
 
 #endif // FONCTION_H

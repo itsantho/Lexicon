@@ -3,12 +3,9 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <cassert>
 #include <iomanip>
 #include <fstream>
-
-class NbJoueurMax;
-
+#include <cassert>
 using namespace std;
 
 // implémentation 
@@ -22,31 +19,31 @@ unsigned int demander_nb_joueurs(){
     return nb_joueurs;
 }
 
-void initialiser_paquet(ListCarte& c){
+void initialiser_paquet(ListeDeCartes& c){
     // i la position de carte dans le paquet de 51, index la lettre, j la quantité
-    c = initialiser_liste_carte(NbrCartes);
-    // Assigne à chaque carte son nombre d'apparition dans le paquet
-    unsigned int qte[NbrCartesUnique] = {2,2,2,2,5,1,2,2,4,1,1,2,1,3,2,1,1,3,3,3,3,1,1,1,1,1};
-    for (unsigned int i = 0; i < NbrCartesUnique; ++i) {
+    c = initialiser_liste_carte(NB_CARTES);
+    // Assigne à chaque carte son nombre d'apparitions dans le paquet
+    unsigned int qte[NB_CARTES_UNIQUE] = {2,2,2,2,5,1,2,2,4,1,1,2,1,3,2,1,1,3,3,3,3,1,1,1,1,1};
+    for (unsigned int i = 0; i < NB_CARTES_UNIQUE; ++i) {
         for (unsigned int j = 0; j < qte[i]; ++j) {
             ajouter(c, 'A' + i);
         }
     }
 }
 
-void afficher_cartes(const ListCarte& c){
+void afficher_cartes(const ListeDeCartes& c){
     for(unsigned int i = 0 ; i < c.taille; ++i){
         cout << lire(c, i);
     }
     cout << endl;
 }
 
-void melanger_paquet(ListCarte& c) {
+void melanger_paquet(ListeDeCartes& c) {
     srand(time(nullptr));
 
-    for (size_t i = 0; i < NbrCartes; ++i)
+    for (unsigned int i = 0; i < NB_CARTES; ++i)
     {
-        const size_t j = rand() % NbrCartes;
+        const unsigned int j = rand() % NB_CARTES;
         Carte tmp = lire(c, i);
 
         modifier(c, i, lire(c, j));
@@ -60,9 +57,9 @@ void donner_une_carte(Joueur& j, Carte c) {
         ajouter(j.carte_possede, c);
 }
 
-void distribuer(ListCarte& c, ListeDeJoueurs& liste, unsigned int nb_joueur) {
+void distribuer(ListeDeCartes& c, ListeDeJoueurs& liste, unsigned int nb_joueur) {
     for (unsigned int i = 0; i < nb_joueur; ++i) {
-        for (unsigned int j = 0; j < NbrCarteParJoueur; ++j) {
+        for (unsigned int j = 0; j < NB_CARTES_JOUEUR; ++j) {
             donner_une_carte(liste.joueurs[i], lire(c,c.taille-1));
             --c.taille;
         }
@@ -76,10 +73,56 @@ void affichage(ListeDeJoueurs& liste,Pile& p) {
 
 }
 
-
-
 void afficher_commandes() {
     cout << "(Commandes valides : TEPRC)" << endl;
+}
+
+bool motdansdictionnaire(const ListeDeCartes& mot){
+    // Ouverture du fichier
+
+    ifstream fichier(DICTIONARY_PATH);
+
+    // Vérification si le fichier est ouvert correctement
+    if (!fichier.is_open()) {
+        cerr << "Erreur lors de l'ouverture du fichier." << endl;
+        return false;
+    }
+
+    // Recherche du mot dans le fichier
+    char ligne[TAILLE_MAX_MOT+1];
+    while (fichier.getline(ligne, TAILLE_MAX_MOT + 1)) {
+        if (comparaison(mot,ligne)) {
+            fichier.close();  // Fermeture du fichier
+            return true;
+        }
+    }
+
+    fichier.close();  // Fermeture du fichier
+    return false;     // Le mot n'a pas été trouvé
+}
+
+bool comparaison(const ListeDeCartes& mot1, const char* mot2){
+    for(unsigned int i = 0; i < mot1.taille; ++i){
+        if (lire(mot1, i) != mot2[i])
+            return false;
+    }
+    return true;
+}
+
+bool jeuEnCours(ListeDeJoueurs& liste){
+    if(liste.nb_joueurs_actifs<=1)
+        return false;
+    return true;
+}
+
+void afficher_score(ListeDeJoueurs& listeDeJoueurs){
+    cout << "Le tour est fini" << endl << "* Scores" << endl;
+
+    for(unsigned int i = 0; i < listeDeJoueurs.nb_joueurs ; ++i)
+        if(listeDeJoueurs.joueurs[i].actif)
+            cout << "Joueur " << i+1 << " : " << listeDeJoueurs.joueurs[i].scores;
+
+    cout << endl;
 }
 
 void cmd_talon(Pile& tal, Pile& expose, Joueur& j, ListeDeJoueurs& liste)  {
@@ -118,48 +161,55 @@ void cmd_expose(Pile& exposee, Joueur &j, ListeDeJoueurs& liste) {
     joueur_suivant(liste);
 }
 
-void cmd_poser(Joueur& j, ListMots& motPose, ListeDeJoueurs& liste){
+void cmd_poser(Joueur& j, ListeDeMots& motPose, ListeDeJoueurs& listeDeJoueurs){
     char input[TAILLE_MAX_MOT+1];
-    ListCarte word = initialiser_liste_carte(TAILLE_MAX_MOT);
+    // Allouer de la place pour le mot
+    ListeDeCartes mot = initialiser_liste_carte(TAILLE_MAX_MOT);
 
-    cin >> std::setw(TAILLE_MAX_MOT) >> input;
+    cin >> setw(TAILLE_MAX_MOT) >> input;
 
     for (unsigned int i = 0; i < strlen(input); ++i) {
-        ajouter(word, input[i]);
+        ajouter(mot, input[i]);
     };
 
+    // Vérifie si le joueur possède ces cartes
+    for(unsigned int i = 0; i < mot.taille; ++i){
+        if (!contient(j.carte_possede,mot.cartes[i])){
+            detruire_liste_carte(mot);
+            return;
+        }
 
+    }
     // Valide par rapport au dictionnaire
-    if(!motdansdictionnaire(word)){
+    if(!motdansdictionnaire(mot)){
         cout << "Le mot ne fait pas partie du dictionnaire, passe ton tour" << endl;
-        penaliser(joueur_actuel(liste));
-        joueur_suivant(liste);
+        penaliser(joueur_actuel(listeDeJoueurs));
+        joueur_suivant(listeDeJoueurs);
+        detruire_liste_carte(mot);
         return;
     }
 
-    // On vérifie si le joueur possède ces cartes
-    for(unsigned int i = 0; i < word.taille; ++i){
-        if (!contient(j.carte_possede,word.cartes[i]))
-            return;
-    }
     // Supprimer les cartes du joueur
-    for (unsigned int i = 0; i < word.taille; ++i){
-        retirer(j.carte_possede,word.cartes[i]);
+    for (unsigned int i = 0; i < mot.taille; ++i){
+        retirer(j.carte_possede,mot.cartes[i]);
     }
 
     // Ajouter le mot à la liste de mot sur la table
-    AjouterListMots(motPose,word);
+    ajouter_mot(motPose,mot);
+
+    //Désallouer le mot créé au début de la fonction
+    detruire_liste_carte(mot);
 
     // Passe au joueur suivant
-    joueur_suivant(liste);
+    joueur_suivant(listeDeJoueurs);
 }
 
-void remplacer(Joueur& j, ListMots& motsPose, const ListMots dictionnaire){
+void cmd_remplacer(Joueur& j, ListeDeMots& motsPose){
     // 1. Vérifier que l'indice du mot est valide
     unsigned int numero;
     cin >> numero;
-     if (numero > motsPose.capacite) {
-            cout << "erreur" << endl;
+     if (numero > motsPose.taille) {
+         return;
      }
 
     // 2. Le nouveau mot doit avoir la même taille que celui remplacé
@@ -170,45 +220,42 @@ void remplacer(Joueur& j, ListMots& motsPose, const ListMots dictionnaire){
     // Supprimer les cartes utilisées pour remplacer et récupérer les cartes remplacées
 }
 
+void cmd_completer(Joueur& j, ListeDeMots& motsPose, ListeDeJoueurs& listeDeJoueurs) {
+    unsigned int numero;
+    char input[TAILLE_MAX_MOT + 1];
+    // Allouer de la place pour le mot
+    ListeDeCartes mot = initialiser_liste_carte(TAILLE_MAX_MOT);
+    cin >> numero >> setw(TAILLE_MAX_MOT) >> input;
 
-bool motdansdictionnaire(const ListCarte& mot) {
-    // Ouverture du fichier
-
-    std::ifstream fichier(DICTIONARY_PATH);
-
-    // Vérification si le fichier est ouvert correctement
-    if (!fichier.is_open()) {
-        std::cerr << "Erreur lors de l'ouverture du fichier." << std::endl;
-        return false;
+    // Vérifier si le numéro est valide
+    if (numero > motsPose.taille) {
+        detruire_liste_carte(mot);
+        return;
     }
-
-    // Recherche du mot dans le fichier
-    char ligne[TAILLE_MAX_MOT+1];
-    while (fichier.getline(ligne, TAILLE_MAX_MOT + 1)) {
-        if (comparaison(mot,ligne)) {
-            fichier.close();  // Fermeture du fichier
-            return true;
+    // Vérifie si le joueur possède ces cartes
+    for (unsigned int i = 0; i < mot.taille; ++i) {
+        if (!contient(j.carte_possede, mot.cartes[i])) {
+            detruire_liste_carte(mot);
+            return;
         }
     }
-
-    fichier.close();  // Fermeture du fichier
-    return false;     // Le mot n'a pas été trouvé
-}
-
-bool comparaison(const ListCarte& mot1, const char* mot2)
-{
-    for(unsigned int i = 0; i < mot1.taille; ++i){
-        if (lire(mot1, i) != mot2[i])
-            return false;
+    // Valide par rapport au dictionnaire
+    if (!motdansdictionnaire(mot)) {
+        cout << "Le mot ne fait pas partie du dictionnaire, passe ton tour" << endl;
+        penaliser(joueur_actuel(listeDeJoueurs));
+        joueur_suivant(listeDeJoueurs);
+        detruire_liste_carte(mot);
+        return;
     }
-    return true;
+    // Modifie le mot à l'indice souhaité
+    modifier_mot(motsPose,numero,mot);
+
+    // Supprimer les cartes du joueur
+    for (unsigned int i = 0; i < mot.taille; ++i){
+        retirer(j.carte_possede,mot.cartes[i]);
+    }
+
+    detruire_liste_carte(mot);
+    joueur_suivant(listeDeJoueurs);
 }
-
-bool jeuEnCours(ListeDeJoueurs& liste){
-    if(liste.nb_joueurs_actifs<=1)
-        return false;
-    return true;
-}
-
-
 

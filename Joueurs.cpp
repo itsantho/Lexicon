@@ -9,7 +9,7 @@ void penaliser(Joueur& joueur){
 
 unsigned int scorejoueur(const Joueur& joueur) {
     //On assigne le score correspondant à chaque carte
-    unsigned int scores[NbrCartesUnique] = {
+    unsigned int scores[NB_CARTES_UNIQUE] = {
             10, 2, 8, 6, 10, 2, 4, 8, 10,
             6, 8, 8, 8, 8, 8, 8, 4, 8,
             8, 8, 8, 8, 8, 2, 4, 2
@@ -37,7 +37,7 @@ ListeDeJoueurs initialiserlistejoueur(unsigned int nb_joueurs){
     // Créer une liste de carte vide pour chaque joueur
     for (unsigned int i = 0; i < nb_joueurs; ++i)
     {
-        joueurs.joueurs[i].carte_possede = initialiser_liste_carte(NbrCarteParJoueur);
+        joueurs.joueurs[i].carte_possede = initialiser_liste_carte(NB_CARTES_JOUEUR);
         joueurs.joueurs[i].scores = 0;
         joueurs.joueurs[i].actif = true;
         joueurs.nb_joueurs_actifs = nb_joueurs;
@@ -59,7 +59,7 @@ void maj_des_scores(ListeDeJoueurs& joueurs){
         //
         // Vérifier si le joueur dépasse le score maximal, et le rendre inactif si c'est le cas
         //
-        if (joueur.scores >= SCORE_DEFAITE){
+        if (joueur.scores > SCORE_DEFAITE){
             // Le joueur actuel est éliminé et le nombre de joueurs actifs diminue
             joueur.actif = false;
             --joueurs.nb_joueurs_actifs;

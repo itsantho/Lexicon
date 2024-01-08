@@ -1,62 +1,60 @@
-//
-// Created by ieman on 04/01/2024.
-//
-
-#include <cassert>
-
 #include "ListMots.h"
+#include <cassert>
 #include <iostream>
 
-void CreerListMots(ListMots& liste, unsigned int capa) {
+using namespace std;
+
+void creer_liste_mots(ListeDeMots& liste, unsigned int capa) {
     liste.capacite = capa;
-    liste.mots = new ListCarte[capa];
+    liste.mots = new ListeDeCartes[capa];
     liste.taille = 0;
 }
 
-void afficher_liste_mots(const ListMots& liste){
+void afficher_liste_mots(const ListeDeMots& liste){
     for(unsigned int i = 0 ; i < liste.taille; ++i){
+        cout << i+1 << " - ";
         afficher_liste_carte(liste.mots[i]);
     }
 }
 
 
-void DetruireListMots(ListMots& listMots) {
-    for(unsigned int i = 0; i < listMots.taille; ++i){
-        ListCarte mot = MotRef(listMots, i);
-        detruire(mot);
+void detruire_liste_mots(ListeDeMots& listeMots) {
+    for(unsigned int i = 0; i < listeMots.taille; ++i){
+        ListeDeCartes mot = MotRef(listeMots, i);
+        detruire_liste_carte(mot);
     }
-    delete[] listMots.mots;
+    delete[] listeMots.mots;
 }
 
-unsigned int TailleList(const ListMots &listMots) {
-    return listMots.taille;
+unsigned int TailleListeDeMots(const ListeDeMots &listeMots) {
+    return listeMots.taille;
 }
-ListCarte& MotRef(const ListMots& listMots, unsigned int index){
-    assert(index < TailleList(listMots));
-    return listMots.mots[index];
-}
-
-void ModifierMot(ListMots &listMots, unsigned int index, const ListCarte &mot) {
-    assert(index < TailleList(listMots));
-
-    detruire(listMots.mots[index]);
-
-    listMots.mots[index] = mot;
+ListeDeCartes& MotRef(const ListeDeMots& listeMots, unsigned int index){
+    assert(index < TailleListeDeMots(listeMots));
+    return listeMots.mots[index];
 }
 
-void AjouterListMots(ListMots &listMots, const ListCarte& mot) {
+void modifier_mot(ListeDeMots &listeMots, unsigned int index, const ListeDeCartes &mot) {
+    assert(index < TailleListeDeMots(listeMots));
+
+    detruire_liste_carte(listeMots.mots[index]);
+
+    listeMots.mots[index] = mot;
+}
+
+void ajouter_mot(ListeDeMots &listeMots, const ListeDeCartes& mot) {
     // Vérifier s'il est nécessaire de réallouer
-    if (listMots.taille >= listMots.capacite)
+    if (listeMots.taille >= listeMots.capacite)
     {
-        const ListCarte* old = listMots.mots;
+        const ListeDeCartes* old = listeMots.mots;
 
-        listMots.capacite = (listMots.capacite + 1) * WORD_LIST_CAPACITY_EXTEND;
-        listMots.mots = new ListCarte[listMots.capacite];
+        listeMots.capacite = (listeMots.capacite + 1) * WORD_LIST_CAPACITY_EXTEND;
+        listeMots.mots = new ListeDeCartes[listeMots.capacite];
 
         if (old)
         {
-            for (size_t i = 0; i < TailleList(listMots); ++i)
-                listMots.mots[i] = old[i];
+            for (size_t i = 0; i < TailleListeDeMots(listeMots); ++i)
+                listeMots.mots[i] = old[i];
 
             // Libérer la mémoire qui contenait l'ancien tableau (pas celle qui contient les éléments des listes)
             delete[] old;
@@ -64,8 +62,8 @@ void AjouterListMots(ListMots &listMots, const ListCarte& mot) {
     }
 
     // Ajouter le mot à la fin du tableau
-    listMots.mots[listMots.taille] = mot;
-    ++listMots.taille;
+    listeMots.mots[listeMots.taille] = mot;
+    ++listeMots.taille;
 }
 
 

@@ -1,10 +1,8 @@
-//
-// Created by ieman on 26/12/2023.
 #include "piles.h"
 #include "ListCarte.h"
 #include <cassert>
 
-void pileDeCartes(Pile& p, const ListCarte& listeDeCarte) {
+void pileDeCartes(Pile& p, const ListeDeCartes& listeDeCarte) {
     p.cartes = listeDeCarte;
 }
 
@@ -19,9 +17,9 @@ bool estVide(const Pile& p)
     return p.cartes.taille == 0;
 }
 
-void detruire(Pile& p)
+void detruire_pile(Pile& p)
 {
-    detruire(p.cartes);
+    detruire_liste_carte(p.cartes);
 }
 
 Carte sommet(Pile& p)

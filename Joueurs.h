@@ -1,12 +1,3 @@
-//
-// Created by ieman on 04/01/2024.
-//
-
-/*!
- * @file Joueurs.hpp
- * @brief Contient les définitions des fonctions reliées aux joueurs
- */
-
 #ifndef LEXICON_JOUEURS_H
 #define LEXICON_JOUEURS_H
 #include "Conteneur/ListCarte.h"
@@ -16,7 +7,7 @@ struct Joueur {
     // Score qui change chaque tour et points de pénalité
     unsigned int scores;
     // Deck du joueur
-    ListCarte carte_possede;
+    ListeDeCartes carte_possede;
 
     // Etat du joueur true = actif et false = éliminer
     bool actif;

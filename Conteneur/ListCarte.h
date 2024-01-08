@@ -1,21 +1,14 @@
-//
-// Created by Anthony on 19/12/2023.
-//
-
 #ifndef LEXICON_LISTCARTE_H
 #define LEXICON_LISTCARTE_H
 
 
 #include "../constante.h"
 
-
-//
-//
 enum
 {
     CARD_LIST_CAPACITY_EXTEND = 2  // Facteur d'extension par défaut d'une liste de carte
 };
-struct ListCarte {
+struct ListeDeCartes {
     Carte* cartes; // correspond à une liste de carte
     unsigned int taille; // taille de la liste
     unsigned int capacite;
@@ -26,56 +19,56 @@ struct ListCarte {
  * @param[IN] liste
  *
 */
-ListCarte initialiser_liste_carte(unsigned int capa);
+ListeDeCartes initialiser_liste_carte(unsigned int capa);
 
 /*
- * @brief ajouter une carte à une la liste
+ * @brief ajouter une carte à une liste
  * @param[OUT] liste
  * @param[IN] Carte
 */
-void ajouter(ListCarte& liste, Carte carte);
+void ajouter(ListeDeCartes& liste, Carte carte);
 
 /*
- * @brief ajouter une carte de la liste
+ * @brief modifier une carte de la liste à une position précise
  * @param[OUT] liste
- * @param[IN] indice
+ * @param[IN] l'indice de la carte
  * @param[OUT] Carte
 */
-void modifier(ListCarte& liste, unsigned int index, Carte carte);
+void modifier(ListeDeCartes& liste, unsigned int index, Carte carte);
 
 /*
  * @brief retire une carte de la liste
- * @param[OUT] liste
- * @param[IN] Carte
+ * @param[OUT] liste de carte
+ * @param[IN] Carte à retirer
 */
-void retirer(ListCarte& liste, Carte carte);
+void retirer(ListeDeCartes& liste, Carte carte);
 
 /*
- * @brief Lire un carte dans la liste
- * @param[IN] liste
- * @param[IN] indice
+ * @brief Lire une carte dans la liste
+ * @param[IN] liste de carte
+ * @param[IN] l'indice de la carte
 */
-Carte lire(const ListCarte& liste, unsigned int index);
+Carte lire(const ListeDeCartes& liste, unsigned int index);
 
 /*
  * @brief détruit une liste
  * param[IN] liste
 */
-void detruire(ListCarte& liste);
+void detruire_liste_carte(ListeDeCartes& liste);
 
 /*
  * @brief Vérifie que la carte se trouve dans la main du joueur
  * param[in] La liste de carte du joueur
  * param[in] La carte à cmd_poser*/
-bool contient(const ListCarte& cartes, Carte carte);
+bool contient(const ListeDeCartes& cartes, Carte carte);
 
 /*
  * @brief affiche le mot que forme les cartes
  * param[in] Liste de carte*/
-void afficher_liste_carte(const ListCarte& cartes);
+void afficher_liste_carte(const ListeDeCartes& cartes);
 /*
  * @brief Retire la dernière carte (sommet)
  * param[out] La carte*/
-Carte retirer_derniere_cartes(ListCarte& cardList);
+Carte retirer_derniere_cartes(ListeDeCartes& cardList);
 
 #endif //LEXICON_LISTCARTE_H

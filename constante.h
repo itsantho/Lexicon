@@ -15,22 +15,15 @@
 
 // Constantes
 enum {
-
     JOUEUR_MIN = 2,
     JOUEUR_MAX = 4,
-
-    NbrCartes = 51,
-    NbrCartesUnique = 26,
-    NbrCarteParJoueur = 10,
-
-    MaxLettreMot = 60,
-
-    NB_MOTS_DICTIONNAIRE= 369085,
+    NB_CARTES = 51,
+    NB_CARTES_UNIQUE = 26,
+    NB_CARTES_JOUEUR = 10,
+    CAPACITE_LISTE_MOTS = 10,
     TAILLE_MAX_MOT = 15,
-
     PENALITE = 3,
-
-    SCORE_DEFAITE = 101
+    SCORE_DEFAITE = 100
 };
 
 // Un type carte qui représente un char

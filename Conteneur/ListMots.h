@@ -1,16 +1,12 @@
-//
-// Created by ieman on 04/01/2024.
-//
-
 #ifndef LEXICON_LISTMOTS_H
 #define LEXICON_LISTMOTS_H
 
 #include "ListCarte.h"
 
-struct ListMots{
+struct ListeDeMots{
     unsigned int taille;
     unsigned int capacite;
-    ListCarte *mots;
+    ListeDeCartes *mots;
 };
 enum
 {
@@ -21,49 +17,49 @@ enum
  * @param[IN] la capacité de la liste
 */
 
-void CreerListMots(ListMots& liste, unsigned int capa);
+void creer_liste_mots(ListeDeMots& liste, unsigned int capa);
 
 /*
- * @brief Affiche tout les mots posé
+ * @brief Affiche tous les mots posés
  * @param[IN] Liste de mot*/
-void afficher_liste_mots(const ListMots& liste);
+void afficher_liste_mots(const ListeDeMots& liste);
 
 /*
  * @brief Desalloue les mots de la liste
- * @param[IN, OUT] la liste a désallouer
+ * @param[IN, OUT] la liste à désallouer
 */
 
-void DetruireListMots(ListMots& listMots);
+void detruire_liste_mots(ListeDeMots& listeMots);
 /*
- * @brief Retourne le nombre de mot dans la liste
- * @param[in] listMots La liste
- * @return Le nombre de mot dans la liste
+ * @brief Retourne le nombre de mots dans la liste
+ * @param[in] listeMots La liste
+ * @return Le nombre de mots dans la liste
  */
-unsigned int TailleList(const ListMots& listMots);
+unsigned int TailleListeDeMots(const ListeDeMots& listeMots);
 
 /*
  * @brief Retourne une référence vers un mot de la liste
- * @param[in] listMots La liste de mot
+ * @param[in] listeMots La liste de mot
  * @param[in] index Indice du mot que l'on veut récupérer
  * @return Référence vers le mot à l'indice index
- * @pre index < ListSize(listMots)
+ * @pre index < TailleList(listeMots)
  */
-ListCarte& MotRef(const ListMots& listMots, unsigned int index);
+ListeDeCartes& MotRef(const ListeDeMots& listeMots, unsigned int index);
 
 /*
- * @brief Modifie la valeur le mot à l'indice donné
- * @param[in, out] listMots La liste de mot
- * @param[in] index L'indice du mot à modifié
+ * @brief Modifie le mot à l'indice donné
+ * @param[in, out] listeMots La liste de mot
+ * @param[in] index L'indice du mot à modifier
  * @param[in] mot La nouvelle valeur du mot
- * @pre index < ListTaille(wordList)
+ * @pre index < TailleListe(wordList)
  */
-void ModifierMot(ListMots& listMots, unsigned int index, const ListCarte& moy);
+void modifier_mot(ListeDeMots& listeMots, unsigned int index, const ListeDeCartes& mot);
 
 /*
  * @brief Ajoute un mot dans la liste
- * @param[in, out] listMots liste dans laquelle ajouter
+ * @param[in, out] listeMots liste dans laquelle ajouter
  * @param[in] mot Le mot à ajouter
  */
-void AjouterListMots(ListMots& listMots, const ListCarte& mot);
+void ajouter_mot(ListeDeMots& listeMots, const ListeDeCartes& mot);
 
 #endif //LEXICON_LISTMOTS_
