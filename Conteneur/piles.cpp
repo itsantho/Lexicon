@@ -1,6 +1,6 @@
 #include "piles.h"
-#include "ListCarte.h"
-#include <cassert>
+
+
 
 void pileDeCartes(Pile& p, const ListeDeCartes& listeDeCarte) {
     p.cartes = listeDeCarte;
@@ -35,6 +35,5 @@ void empiler(Pile& p, Carte it)
 
 Carte depiler(Pile& p)
 {
-    assert(!estVide(p));
     return retirer_derniere_cartes(p.cartes);
 }

@@ -1,11 +1,9 @@
 #ifndef COMMANDES_H
 #define COMMANDES_H
 
-#include "Conteneur/ListCarte.h"
-#include "constante.h"
-#include "Conteneur/piles.h"
+#include "jeu.h"
 #include "Conteneur/ListMots.h"
-#include "Joueurs.h"
+
 #include <cstring>
 
 

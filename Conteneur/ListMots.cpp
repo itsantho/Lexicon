@@ -1,5 +1,4 @@
 #include "ListMots.h"
-#include <cassert>
 #include <iostream>
 
 using namespace std;
@@ -24,15 +23,12 @@ void detruire_liste_mots(ListeDeMots& listeMots) {
         detruire_liste_carte(mot);
     }
     delete[] listeMots.mots;
-    listeMots.taille = 0;
-    listeMots.capacite = 0;
 }
 
 unsigned int TailleListeDeMots(const ListeDeMots &listeMots) {
     return listeMots.taille;
 }
 ListeDeCartes& MotRef(const ListeDeMots& listeMots, unsigned int index){
-    assert(index < TailleListeDeMots(listeMots));
     return listeMots.mots[index];
 }
 
@@ -49,7 +45,7 @@ void ajouter_mot(ListeDeMots &listeMots, const ListeDeCartes& mot) {
     {
         const ListeDeCartes* old = listeMots.mots;
 
-        listeMots.capacite = (listeMots.capacite + 1) * WORD_LIST_CAPACITY_EXTEND;
+        listeMots.capacite = (listeMots.capacite + 1) * COEF;
         listeMots.mots = new ListeDeCartes[listeMots.capacite];
 
         if (old)

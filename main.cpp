@@ -1,11 +1,6 @@
-#include "jeu.h"
 #include "Commandes.h"
-#include "Conteneur/ListCarte.h"
-#include "Conteneur/piles.h"
-#include "Joueurs.h"
 #include "test_unitaire.h"
 #include <iostream>
-#include <cassert>
 #include <limits>
 #include <istream>
 
@@ -45,8 +40,10 @@ int main() {
     //Afficher les commandes disponibles
     afficher_commandes();
 
+    exposees = initialiser_pile();
+    talon = initialiser_pile();
 
-    while (jeuEnCours(listejoueurs)) {
+    while (listejoueurs.nb_joueurs_actifs > 1) {
         // DEBUT DU TOUR
 
         // Initialisation du tour
@@ -56,10 +53,6 @@ int main() {
 
         //Distribution des cartes aux joueurs
         distribuer(cartes, listejoueurs, nb_joueurs);
-
-        // Le reste des cartes deviennent la pile talon
-        exposees = initialiser_pile();
-        talon = initialiser_pile();
 
         //Assigne le paquet de cartes au talon
         pileDeCartes(talon,cartes);
@@ -72,8 +65,7 @@ int main() {
             // AFFICHAGE
             affichage(listejoueurs, exposees);
             afficher_liste_mots(mots);
-            for(unsigned int i = 0; i < nb_joueurs; ++i)
-                assert(listejoueurs.joueurs[i].actif);
+
             // SAISIE
 
             cout << '>';
@@ -84,7 +76,7 @@ int main() {
 
             // Ignorer les caractères supplémentaires dans le tampon d'entrée jusqu'à l'espace
             while (esp != ' ' && esp != '\n') {
-                std::cin.get(esp);
+                cin.get(esp);
             }
             switch (cmd) {
                 case 'T': {

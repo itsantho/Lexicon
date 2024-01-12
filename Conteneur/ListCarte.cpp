@@ -57,8 +57,6 @@ void retirer(ListeDeCartes &liste, Carte carte) {
 
 void detruire_liste_carte(ListeDeCartes &liste) {
     delete[] liste.cartes;
-    liste.taille = 0;
-    liste.capacite = 0;
 }
 
 

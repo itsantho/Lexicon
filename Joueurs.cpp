@@ -18,11 +18,20 @@ void scorejoueur(Joueur& joueur) {
             8, 8, 8, 8, 8, 2, 4, 2
     };
 
-    //On rajoute le score en fonction des cartes du joueur à la fin du tour
-    for (unsigned int i = 0; i < joueur.carte_possede.taille ;++i)
-    {
-        Carte carte = joueur.carte_possede.cartes[i];
-        joueur.scores += scores[carte];
+    char lettres[NB_CARTES_UNIQUE] = {
+            'A','B','C','D','E','F' ,'G' ,'H' ,
+            'I' ,'J','K','L','M','N','O','P',
+            'Q','R','S','T','U','V','W','X',
+            'Y','Z'
+    };
+
+
+    for (unsigned int i = 0; i < joueur.carte_possede.taille; ++i){
+        for (unsigned int Cartepos = 0, ScoreAjouter = 0; Cartepos < NB_CARTES_UNIQUE; ++Cartepos)
+            if (joueur.carte_possede.cartes[i] == lettres[Cartepos] and ScoreAjouter == 0){
+                joueur.scores += scores[Cartepos];
+                ++ScoreAjouter;
+            }
     }
     if(joueur.scores >=SCORE_DEFAITE)
         joueur.actif = false;

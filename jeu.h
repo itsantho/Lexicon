@@ -1,9 +1,6 @@
 #ifndef JEU_H
 #define JEU_H
-#include "Conteneur/ListCarte.h"
-#include "constante.h"
 #include "Conteneur/piles.h"
-#include "Conteneur/ListMots.h"
 #include "Joueurs.h"
 
 
@@ -75,7 +72,6 @@ bool motdansdictionnaire(const ListeDeCartes& mot);
 
 bool comparaison(const ListeDeCartes& mot1, const char* mot2);
 
-bool jeuEnCours(ListeDeJoueurs& liste);
 
 /*
  * @brief affiche le score des joueurs

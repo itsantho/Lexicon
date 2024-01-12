@@ -100,16 +100,12 @@ void test_joueurs(){
     assert(listeJoueurs.nb_joueurs_actifs == nbJoueurs);
     assert(listeJoueurs.indiceJoueurActuel == 0);
 
-
-
     // Teste joueur_actuel
     assert(&joueur_actuel(listeJoueurs) == &listeJoueurs.joueurs[0]);
 
     // Teste joueur_suivant
     joueur_suivant(listeJoueurs);
     assert(listeJoueurs.indiceJoueurActuel == 1);
-
-
 
     // Teste penaliser
     penaliser(listeJoueurs.joueurs[0]);
@@ -120,8 +116,6 @@ void test_joueurs(){
     assert(listeJoueurs.joueurs[0].scores >= 0);
 
 
-
-    // Clean up
     detruireListeJoueur(listeJoueurs);
 }
 

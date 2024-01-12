@@ -10,7 +10,7 @@ struct ListeDeMots{
 };
 enum
 {
-    WORD_LIST_CAPACITY_EXTEND = 2  // facteur d'extension par défaut d'une liste de mot
+    COEF = 2  // facteur d'extension par défaut d'une liste de mot
 };
 /*
  * @brief Initialise une liste de mots

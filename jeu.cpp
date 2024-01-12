@@ -1,5 +1,4 @@
 #include "jeu.h"
-#include "Joueurs.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -108,12 +107,6 @@ bool comparaison(const ListeDeCartes& mot1, const char* mot2){
     return true;
 }
 
-bool jeuEnCours(ListeDeJoueurs& liste){
-    if(liste.nb_joueurs_actifs>1)
-        return true;
-    else
-        return false;
-}
 
 void afficher_score(ListeDeJoueurs& listeDeJoueurs){
     cout << "Le tour est fini" << endl << "* Scores" << endl;

@@ -1,5 +1,3 @@
-#include "jeu.h"
-#include "Joueurs.h"
 #include "Commandes.h"
 #include <iostream>
 #include <istream>
