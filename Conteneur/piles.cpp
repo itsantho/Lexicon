@@ -7,9 +7,10 @@ void pileDeCartes(Pile& p, const ListeDeCartes& listeDeCarte) {
 }
 
 Pile initialiser_pile(unsigned int capa_initiale){
-    Pile p {
-        .cartes = initialiser_liste_carte(capa_initiale)
-    };
+    Pile p;
+    
+    p.cartes = initialiser_liste_carte(capa_initiale);
+    
     return p;
 }
 bool estVide(const Pile& p)

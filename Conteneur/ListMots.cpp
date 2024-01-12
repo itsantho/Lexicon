@@ -24,6 +24,8 @@ void detruire_liste_mots(ListeDeMots& listeMots) {
         detruire_liste_carte(mot);
     }
     delete[] listeMots.mots;
+    listeMots.taille = 0;
+    listeMots.capacite = 0;
 }
 
 unsigned int TailleListeDeMots(const ListeDeMots &listeMots) {
@@ -35,7 +37,6 @@ ListeDeCartes& MotRef(const ListeDeMots& listeMots, unsigned int index){
 }
 
 void modifier_mot(ListeDeMots &listeMots, unsigned int index, const ListeDeCartes &mot) {
-    assert(index < TailleListeDeMots(listeMots));
 
     detruire_liste_carte(listeMots.mots[index]);
 

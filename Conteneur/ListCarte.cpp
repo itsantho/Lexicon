@@ -2,13 +2,16 @@
 #include <iostream>
 #include <cassert>
 
+using namespace std;
+
+
+
 ListeDeCartes initialiser_liste_carte(unsigned int capa){
-    const ListeDeCartes cartes = {
-            .cartes = capa ? new Carte[capa]: nullptr,
-            .taille = 0,
-            .capacite = capa
-    };
-    return cartes;
+    ListeDeCartes carte;
+    carte.cartes = new Carte[capa];
+    carte.taille = 0;
+    carte.capacite = capa;
+    return carte;
 }
 
 void ajouter(ListeDeCartes &liste, Carte carte) {
@@ -54,6 +57,8 @@ void retirer(ListeDeCartes &liste, Carte carte) {
 
 void detruire_liste_carte(ListeDeCartes &liste) {
     delete[] liste.cartes;
+    liste.taille = 0;
+    liste.capacite = 0;
 }
 
 
@@ -70,10 +75,10 @@ bool contient(const ListeDeCartes &cartes, Carte carte) {
 
 void afficher_liste_carte(const ListeDeCartes& cartes){
     for(unsigned int i = 0; i < cartes.taille; ++i){
-        std::cout << lire(cartes,i);
+        cout << lire(cartes,i);
     }
 
-    std::cout << std::endl;
+    cout << endl;
 }
 
 Carte retirer_derniere_cartes(ListeDeCartes& listeDecarte)

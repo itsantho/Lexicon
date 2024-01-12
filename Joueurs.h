@@ -66,22 +66,14 @@ void penaliser(Joueur& joueur);
  * @return Le score du joueur
  * @note La fonction doit être appelée à la fin d'un tour
  */
-unsigned int scorejoueur(const Joueur& joueur);
+void scorejoueur(Joueur& joueur);
 
 /*
- * @brief Détermine si le joueur actuel a terminé et gagné le tour
- * @param[in] Le joueur passé en paramètre doit être le joueur actuel
+ * @brief Détermine un joueur a gagné
+ * @param[in] La liste des joueurs
  * @return true si le joueur a gagné le tour, false sinon
- * @note La fonction doit être appelée sur le joueur actuel juste après son tour
+ * 
  */
-bool agagneletour(const Joueur& joueurActuel);
-
-/*
-@brief Actualise le score et exclut les joueurs dont le total dépasse 100 points à la fin d'un tour
-@param[in, out] joueurs, Liste des joueurs
-*/
-void maj_des_scores(ListeDeJoueurs& joueurs);
-
-
+bool fin_tour(const ListeDeJoueurs& joueurs);
 
 #endif //LEXICON_JOUEURS_H

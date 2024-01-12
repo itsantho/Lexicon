@@ -57,9 +57,10 @@ Carte lire(const ListeDeCartes& liste, unsigned int index);
 void detruire_liste_carte(ListeDeCartes& liste);
 
 /*
- * @brief Vérifie que la carte se trouve dans la main du joueur
- * param[in] La liste de carte du joueur
- * param[in] La carte à cmd_poser*/
+ * @brief Vérifie que la carte se trouve dans une liste de carte
+ * param[in] La liste de carte
+ * param[in] La carte à vérifier
+ * */
 bool contient(const ListeDeCartes& cartes, Carte carte);
 
 /*

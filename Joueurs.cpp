@@ -3,11 +3,14 @@
 //
 
 #include "Joueurs.h"
+
+void assert(bool b);
+
 void penaliser(Joueur& joueur){
     joueur.scores += PENALITE;
 }
 
-unsigned int scorejoueur(const Joueur& joueur) {
+void scorejoueur(Joueur& joueur) {
     //On assigne le score correspondant à chaque carte
     unsigned int scores[NB_CARTES_UNIQUE] = {
             10, 2, 8, 6, 10, 2, 4, 8, 10,
@@ -15,17 +18,14 @@ unsigned int scorejoueur(const Joueur& joueur) {
             8, 8, 8, 8, 8, 2, 4, 2
     };
 
-    //Initialisation du score a 0
-    unsigned int score = 0;
-
     //On rajoute le score en fonction des cartes du joueur à la fin du tour
     for (unsigned int i = 0; i < joueur.carte_possede.taille ;++i)
     {
-        const Carte card = joueur.carte_possede.cartes[i];
-        score += scores[card];
+        Carte carte = joueur.carte_possede.cartes[i];
+        joueur.scores += scores[carte];
     }
-
-    return score;
+    if(joueur.scores >=SCORE_DEFAITE)
+        joueur.actif = false;
 }
 
 ListeDeJoueurs initialiserlistejoueur(unsigned int nb_joueurs){
@@ -47,28 +47,6 @@ ListeDeJoueurs initialiserlistejoueur(unsigned int nb_joueurs){
     return joueurs;
 }
 
-
-
-void maj_des_scores(ListeDeJoueurs& joueurs){
-    for (unsigned int i = 0; i < joueurs.nb_joueurs_actifs; ++i)
-    {
-        Joueur& joueur = joueur_actuel(joueurs);
-
-        joueur.scores += scorejoueur(joueur);
-
-        //
-        // Vérifier si le joueur dépasse le score maximal, et le rendre inactif si c'est le cas
-        //
-        if (joueur.scores > SCORE_DEFAITE){
-            // Le joueur actuel est éliminé et le nombre de joueurs actifs diminue
-            joueur.actif = false;
-            --joueurs.nb_joueurs_actifs;
-        }
-
-        joueur_suivant(joueurs);
-    }
-}
-
 Joueur& joueur_actuel(const ListeDeJoueurs& joueurs)
 {
     return joueurs.joueurs[joueurs.indiceJoueurActuel];
@@ -84,11 +62,13 @@ void joueur_suivant(ListeDeJoueurs &liste) {
     } while (!liste.joueurs[liste.indiceJoueurActuel].actif);
 }
 
-bool agagneletour(const Joueur& joueurActuel){
-    if (joueurActuel.carte_possede.taille == 0)
-        return true;
-    else
-        return false;
+bool fin_tour(const ListeDeJoueurs& joueurs){
+    for(unsigned int i = 0; i < joueurs.nb_joueurs; ++i)
+        if(joueurs.joueurs[i].actif)
+            if (joueurs.joueurs[i].carte_possede.taille == 0)
+                return true;
+
+    return false;
 }
 
 void detruireListeJoueur(ListeDeJoueurs& joueurs){

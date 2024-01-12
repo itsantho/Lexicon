@@ -1,15 +1,27 @@
 #include "jeu.h"
+#include "Commandes.h"
 #include "Conteneur/ListCarte.h"
 #include "Conteneur/piles.h"
 #include "Joueurs.h"
+#include "test_unitaire.h"
 #include <iostream>
+#include <cassert>
+#include <limits>
+#include <istream>
 
 using namespace std;
 
 int main() {
-    //
+
     // Lancement
-    //
+
+    /*
+    test_cartes();
+    test_liste_mot();
+    test_pile();
+    test_joueurs();
+    test_jeu();
+     */
 
     // On demande le nombre de joueurs
     unsigned int nb_joueurs = 0;
@@ -55,17 +67,25 @@ int main() {
         // La carte au sommet du reste des cartes (talon) devient la carte exposée
         empiler(exposees, depiler(talon));
 
-        while(!agagneletour(joueur_actuel(listejoueurs))){
+        while(!fin_tour(listejoueurs)){
 
             // AFFICHAGE
             affichage(listejoueurs, exposees);
             afficher_liste_mots(mots);
-
+            for(unsigned int i = 0; i < nb_joueurs; ++i)
+                assert(listejoueurs.joueurs[i].actif);
             // SAISIE
-            char cmd;
-            cout << '>';
-            cin >> cmd;
 
+            cout << '>';
+            char cmd;
+            char esp;
+            cin >> cmd ;
+            cin.get(esp);
+
+            // Ignorer les caractères supplémentaires dans le tampon d'entrée jusqu'à l'espace
+            while (esp != ' ' && esp != '\n') {
+                std::cin.get(esp);
+            }
             switch (cmd) {
                 case 'T': {
                     cmd_talon(talon, exposees, joueur_actuel(listejoueurs),listejoueurs);
@@ -76,10 +96,13 @@ int main() {
                     break;
                 }
                 case 'P': {
-                    cmd_poser(joueur_actuel(listejoueurs), mots, listejoueurs);
+                    cmd_poser(joueur_actuel(listejoueurs),mots,listejoueurs);
                     break;
                 }
-                case 'R':
+                case 'R': {
+                    cmd_remplacer(joueur_actuel(listejoueurs),mots,listejoueurs);
+                    break;
+                }
                 case 'C': {
                     cmd_completer(joueur_actuel(listejoueurs),mots,listejoueurs);
                     break;
@@ -91,7 +114,9 @@ int main() {
         }
         // FIN DU TOUR
         // Actualiser le score
-        maj_des_scores(listejoueurs);
+
+        for(unsigned int i = 0; i < nb_joueurs; ++i)
+            scorejoueur(listejoueurs.joueurs[i]);
         afficher_score(listejoueurs);
 
         // Réinitialiser toutes les données avant de commercer une nouvelle manche

@@ -3,9 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <iomanip>
 #include <fstream>
-#include <cassert>
+
 using namespace std;
 
 // implémentation 
@@ -110,9 +109,10 @@ bool comparaison(const ListeDeCartes& mot1, const char* mot2){
 }
 
 bool jeuEnCours(ListeDeJoueurs& liste){
-    if(liste.nb_joueurs_actifs<=1)
+    if(liste.nb_joueurs_actifs>1)
+        return true;
+    else
         return false;
-    return true;
 }
 
 void afficher_score(ListeDeJoueurs& listeDeJoueurs){
@@ -120,142 +120,18 @@ void afficher_score(ListeDeJoueurs& listeDeJoueurs){
 
     for(unsigned int i = 0; i < listeDeJoueurs.nb_joueurs ; ++i)
         if(listeDeJoueurs.joueurs[i].actif)
-            cout << "Joueur " << i+1 << " : " << listeDeJoueurs.joueurs[i].scores;
+            cout << "Joueur " << i+1 << " : " << listeDeJoueurs.joueurs[i].scores << endl;
 
     cout << endl;
 }
 
-void cmd_talon(Pile& tal, Pile& expose, Joueur& j, ListeDeJoueurs& liste)  {
-    char lettre;
-    cin >> lettre;
-
-    // Vérifie si le joueur possède la carte
-    if (!contient(j.carte_possede, lettre))
-        return;
-    // Empile la carte au-dessus des cartes exposées
-    empiler(expose,lettre);
-    // Supprime la carte de la main du joueur
-    retirer(j.carte_possede, lettre);
-
-    Carte c = sommet(tal);
-    depiler(tal);
-    // La première carte de talon est ajouté à la main du joueur
-    ajouter(j.carte_possede, c);
-    joueur_suivant(liste);
+bool liste_carte_diff(ListeDeCartes& a, ListeDeCartes& b){
+    for (unsigned int i = 0; i < NB_CARTES; ++i){
+        if(a.cartes != b.cartes)
+            return true;
+    }
+    return false;
 }
 
-void cmd_expose(Pile& exposee, Joueur &j, ListeDeJoueurs& liste) {
-    char lettre;
-    cin >> lettre;
 
-    if (!contient(j.carte_possede, lettre))
-        return;
-    // La carte exposée est remplacée par la carte du joueur
-    Carte tmp = sommet(exposee);
-    depiler(exposee);
-    empiler(exposee, lettre);
-    // Le joueur remplace sa carte par l'ancienne carte exposée
-    retirer(j.carte_possede,lettre);
-    ajouter(j.carte_possede, tmp);
-    // Fin de la commande et passe au joueur suivant
-    joueur_suivant(liste);
-}
-
-void cmd_poser(Joueur& j, ListeDeMots& motPose, ListeDeJoueurs& listeDeJoueurs){
-    char input[TAILLE_MAX_MOT+1];
-    // Allouer de la place pour le mot
-    ListeDeCartes mot = initialiser_liste_carte(TAILLE_MAX_MOT);
-
-    cin >> setw(TAILLE_MAX_MOT) >> input;
-
-    for (unsigned int i = 0; i < strlen(input); ++i) {
-        ajouter(mot, input[i]);
-    };
-
-    // Vérifie si le joueur possède ces cartes
-    for(unsigned int i = 0; i < mot.taille; ++i){
-        if (!contient(j.carte_possede,mot.cartes[i])){
-            detruire_liste_carte(mot);
-            return;
-        }
-
-    }
-    // Valide par rapport au dictionnaire
-    if(!motdansdictionnaire(mot)){
-        cout << "Le mot ne fait pas partie du dictionnaire, passe ton tour" << endl;
-        penaliser(joueur_actuel(listeDeJoueurs));
-        joueur_suivant(listeDeJoueurs);
-        detruire_liste_carte(mot);
-        return;
-    }
-
-    // Supprimer les cartes du joueur
-    for (unsigned int i = 0; i < mot.taille; ++i){
-        retirer(j.carte_possede,mot.cartes[i]);
-    }
-
-    // Ajouter le mot à la liste de mot sur la table
-    ajouter_mot(motPose,mot);
-
-    //Désallouer le mot créé au début de la fonction
-    detruire_liste_carte(mot);
-
-    // Passe au joueur suivant
-    joueur_suivant(listeDeJoueurs);
-}
-
-void cmd_remplacer(Joueur& j, ListeDeMots& motsPose){
-    // 1. Vérifier que l'indice du mot est valide
-    unsigned int numero;
-    cin >> numero;
-     if (numero > motsPose.taille) {
-         return;
-     }
-
-    // 2. Le nouveau mot doit avoir la même taille que celui remplacé
-    // Récupérer toutes les cartes remplaçantes et toutes les cartes remplacées dans deux listes
-    // Vérifier que le joueur possède les cartes remplaçantes
-    // Vérifier que le mot est valide
-    // Remplacer le mot
-    // Supprimer les cartes utilisées pour remplacer et récupérer les cartes remplacées
-}
-
-void cmd_completer(Joueur& j, ListeDeMots& motsPose, ListeDeJoueurs& listeDeJoueurs) {
-    unsigned int numero;
-    char input[TAILLE_MAX_MOT + 1];
-    // Allouer de la place pour le mot
-    ListeDeCartes mot = initialiser_liste_carte(TAILLE_MAX_MOT);
-    cin >> numero >> setw(TAILLE_MAX_MOT) >> input;
-
-    // Vérifier si le numéro est valide
-    if (numero > motsPose.taille) {
-        detruire_liste_carte(mot);
-        return;
-    }
-    // Vérifie si le joueur possède ces cartes
-    for (unsigned int i = 0; i < mot.taille; ++i) {
-        if (!contient(j.carte_possede, mot.cartes[i])) {
-            detruire_liste_carte(mot);
-            return;
-        }
-    }
-    // Valide par rapport au dictionnaire
-    if (!motdansdictionnaire(mot)) {
-        cout << "Le mot ne fait pas partie du dictionnaire, passe ton tour" << endl;
-        penaliser(joueur_actuel(listeDeJoueurs));
-        joueur_suivant(listeDeJoueurs);
-        detruire_liste_carte(mot);
-        return;
-    }
-    // Modifie le mot à l'indice souhaité
-    modifier_mot(motsPose,numero,mot);
-
-    // Supprimer les cartes du joueur
-    for (unsigned int i = 0; i < mot.taille; ++i){
-        retirer(j.carte_possede,mot.cartes[i]);
-    }
-
-    detruire_liste_carte(mot);
-    joueur_suivant(listeDeJoueurs);
-}
 
